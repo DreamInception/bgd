@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.UserAcctChangeMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.UserAcctChange" >
+    <id column="map_auto_id" property="mapAutoId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="enum_acct_type" property="enumAcctType" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    map_auto_id, user_id, enum_acct_type, amount, remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_acct_change
+    where map_auto_id = #{mapAutoId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_acct_change
+    where map_auto_id = #{mapAutoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.UserAcctChange" >
+    insert into user_acct_change (map_auto_id, user_id, enum_acct_type, 
+      amount, remark, create_time
+      )
+    values (#{mapAutoId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{enumAcctType,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.UserAcctChange" >
+    insert into user_acct_change
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mapAutoId != null" >
+        map_auto_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="enumAcctType != null" >
+        enum_acct_type,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mapAutoId != null" >
+        #{mapAutoId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="enumAcctType != null" >
+        #{enumAcctType,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.UserAcctChange" >
+    update user_acct_change
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="enumAcctType != null" >
+        enum_acct_type = #{enumAcctType,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where map_auto_id = #{mapAutoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.UserAcctChange" >
+    update user_acct_change
+    set user_id = #{userId,jdbcType=BIGINT},
+      enum_acct_type = #{enumAcctType,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where map_auto_id = #{mapAutoId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.OptMoneyCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.OptMoneyCoupon" >
+    <id column="auto_id" property="autoId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="year_rate" property="yearRate" jdbcType="DECIMAL" />
+    <result column="day_rate" property="dayRate" jdbcType="DECIMAL" />
+    <result column="day_count" property="dayCount" jdbcType="INTEGER" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="min_amount" property="minAmount" jdbcType="DECIMAL" />
+    <result column="min_days" property="minDays" jdbcType="INTEGER" />
+    <result column="enum_sendgift_state" property="enumSendgiftState" jdbcType="INTEGER" />
+    <result column="send_adminid" property="sendAdminid" jdbcType="BIGINT" />
+    <result column="audit_adminid" property="auditAdminid" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    auto_id, user_id, amount, year_rate, day_rate, day_count, end_date, min_amount, min_days, 
+    enum_sendgift_state, send_adminid, audit_adminid, remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from opt_money_coupon
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </select>
+  <!-- 统计条数 -->
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.HashMap" >
+    select 
+    	count(0)
+    from opt_money_coupon
+    where 1=1
+    <if test="userId != null" >
+        and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="amount != null" >
+        and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="yearRate != null" >
+        and year_rate = #{yearRate,jdbcType=DECIMAL}
+      </if>
+      <if test="dayRate != null" >
+        and day_rate = #{dayRate,jdbcType=DECIMAL}
+      </if>
+      <if test="dayCount != null" >
+        and day_count = #{dayCount,jdbcType=INTEGER}
+      </if>
+      <if test="endDate != null" >
+        and end_date = #{endDate,jdbcType=DATE}
+      </if>
+      <if test="minAmount != null" >
+        and min_amount = #{minAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="minDays != null" >
+        and min_days = #{minDays,jdbcType=INTEGER}
+      </if>
+      <if test="enumSendgiftState != null" >
+        and enum_sendgift_state = #{enumSendgiftState,jdbcType=INTEGER}
+      </if>
+      <if test="sendAdminid != null" >
+        and send_adminid = #{sendAdminid,jdbcType=BIGINT}
+      </if>
+      <if test="auditAdminid != null" >
+        and audit_adminid = #{auditAdminid,jdbcType=BIGINT}
+      </if>
+      <if test="remark != null" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  <!-- 查询运营赠送体验金券分页列表 -->
+  <select id="selectPageList" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from opt_money_coupon
+    where 1=1
+    <if test="userId != null" >
+        and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="amount != null" >
+        and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="yearRate != null" >
+        and year_rate = #{yearRate,jdbcType=DECIMAL}
+      </if>
+      <if test="dayRate != null" >
+        and day_rate = #{dayRate,jdbcType=DECIMAL}
+      </if>
+      <if test="dayCount != null" >
+        and day_count = #{dayCount,jdbcType=INTEGER}
+      </if>
+      <if test="endDate != null" >
+        and end_date = #{endDate,jdbcType=DATE}
+      </if>
+      <if test="minAmount != null" >
+        and min_amount = #{minAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="minDays != null" >
+        and min_days = #{minDays,jdbcType=INTEGER}
+      </if>
+      <if test="enumSendgiftState != null" >
+        and enum_sendgift_state = #{enumSendgiftState,jdbcType=INTEGER}
+      </if>
+      <if test="sendAdminid != null" >
+        and send_adminid = #{sendAdminid,jdbcType=BIGINT}
+      </if>
+      <if test="auditAdminid != null" >
+        and audit_adminid = #{auditAdminid,jdbcType=BIGINT}
+      </if>
+      <if test="remark != null" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      Order By create_time DESC
+      limit #{start},#{end}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from opt_money_coupon
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.OptMoneyCoupon" >
+    insert into opt_money_coupon (auto_id, user_id, amount, 
+      year_rate, day_rate, day_count, 
+      end_date, min_amount, min_days, 
+      enum_sendgift_state, send_adminid, audit_adminid, 
+      remark, create_time)
+    values (#{autoId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, 
+      #{yearRate,jdbcType=DECIMAL}, #{dayRate,jdbcType=DECIMAL}, #{dayCount,jdbcType=INTEGER}, 
+      #{endDate,jdbcType=DATE}, #{minAmount,jdbcType=DECIMAL}, #{minDays,jdbcType=INTEGER}, 
+      #{enumSendgiftState,jdbcType=INTEGER}, #{sendAdminid,jdbcType=BIGINT}, #{auditAdminid,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.OptMoneyCoupon" >
+    insert into opt_money_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="autoId != null" >
+        auto_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="yearRate != null" >
+        year_rate,
+      </if>
+      <if test="dayRate != null" >
+        day_rate,
+      </if>
+      <if test="dayCount != null" >
+        day_count,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="minAmount != null" >
+        min_amount,
+      </if>
+      <if test="minDays != null" >
+        min_days,
+      </if>
+      <if test="enumSendgiftState != null" >
+        enum_sendgift_state,
+      </if>
+      <if test="sendAdminid != null" >
+        send_adminid,
+      </if>
+      <if test="auditAdminid != null" >
+        audit_adminid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="autoId != null" >
+        #{autoId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="yearRate != null" >
+        #{yearRate,jdbcType=DECIMAL},
+      </if>
+      <if test="dayRate != null" >
+        #{dayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="dayCount != null" >
+        #{dayCount,jdbcType=INTEGER},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="minAmount != null" >
+        #{minAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="minDays != null" >
+        #{minDays,jdbcType=INTEGER},
+      </if>
+      <if test="enumSendgiftState != null" >
+        #{enumSendgiftState,jdbcType=INTEGER},
+      </if>
+      <if test="sendAdminid != null" >
+        #{sendAdminid,jdbcType=BIGINT},
+      </if>
+      <if test="auditAdminid != null" >
+        #{auditAdminid,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.OptMoneyCoupon" >
+    update opt_money_coupon
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="yearRate != null" >
+        year_rate = #{yearRate,jdbcType=DECIMAL},
+      </if>
+      <if test="dayRate != null" >
+        day_rate = #{dayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="dayCount != null" >
+        day_count = #{dayCount,jdbcType=INTEGER},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="minAmount != null" >
+        min_amount = #{minAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="minDays != null" >
+        min_days = #{minDays,jdbcType=INTEGER},
+      </if>
+      <if test="enumSendgiftState != null" >
+        enum_sendgift_state = #{enumSendgiftState,jdbcType=INTEGER},
+      </if>
+      <if test="sendAdminid != null" >
+        send_adminid = #{sendAdminid,jdbcType=BIGINT},
+      </if>
+      <if test="auditAdminid != null" >
+        audit_adminid = #{auditAdminid,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.OptMoneyCoupon" >
+    update opt_money_coupon
+    set user_id = #{userId,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=DECIMAL},
+      year_rate = #{yearRate,jdbcType=DECIMAL},
+      day_rate = #{dayRate,jdbcType=DECIMAL},
+      day_count = #{dayCount,jdbcType=INTEGER},
+      end_date = #{endDate,jdbcType=DATE},
+      min_amount = #{minAmount,jdbcType=DECIMAL},
+      min_days = #{minDays,jdbcType=INTEGER},
+      enum_sendgift_state = #{enumSendgiftState,jdbcType=INTEGER},
+      send_adminid = #{sendAdminid,jdbcType=BIGINT},
+      audit_adminid = #{auditAdminid,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </update>
+</mapper>

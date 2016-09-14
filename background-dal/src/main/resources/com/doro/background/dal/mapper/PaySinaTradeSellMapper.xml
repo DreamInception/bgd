@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.PaySinaTradeSellMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.PaySinaTradeSell" >
+    <id column="trade_id" property="tradeId" jdbcType="BIGINT" />
+    <result column="application_id" property="applicationId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="payee_identity_id" property="payeeIdentityId" jdbcType="VARCHAR" />
+    <result column="payee_identity_type" property="payeeIdentityType" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="enum_sina_trade_state" property="enumSinaTradeState" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    trade_id, application_id, user_id, out_trade_no, payee_identity_id, payee_identity_type, 
+    amount, enum_sina_trade_state, remark, create_time
+  </sql>
+   <select id="selectByOutTradeNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_sina_trade_sell
+    where out_trade_no = #{outTradeNo,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_sina_trade_sell
+    where trade_id = #{tradeId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from pay_sina_trade_sell
+    where trade_id = #{tradeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.PaySinaTradeSell" >
+    insert into pay_sina_trade_sell (trade_id, application_id, user_id, 
+      out_trade_no, payee_identity_id, payee_identity_type, 
+      amount, enum_sina_trade_state, remark, 
+      create_time)
+    values (#{tradeId,jdbcType=BIGINT}, #{applicationId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{outTradeNo,jdbcType=VARCHAR}, #{payeeIdentityId,jdbcType=VARCHAR}, #{payeeIdentityType,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{enumSinaTradeState,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.PaySinaTradeSell" >
+    insert into pay_sina_trade_sell
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tradeId != null" >
+        trade_id,
+      </if>
+      <if test="applicationId != null" >
+        application_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="outTradeNo != null" >
+        out_trade_no,
+      </if>
+      <if test="payeeIdentityId != null" >
+        payee_identity_id,
+      </if>
+      <if test="payeeIdentityType != null" >
+        payee_identity_type,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="enumSinaTradeState != null" >
+        enum_sina_trade_state,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tradeId != null" >
+        #{tradeId,jdbcType=BIGINT},
+      </if>
+      <if test="applicationId != null" >
+        #{applicationId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="outTradeNo != null" >
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeIdentityId != null" >
+        #{payeeIdentityId,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeIdentityType != null" >
+        #{payeeIdentityType,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="enumSinaTradeState != null" >
+        #{enumSinaTradeState,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.PaySinaTradeSell" >
+    update pay_sina_trade_sell
+    <set >
+      <if test="applicationId != null" >
+        application_id = #{applicationId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="outTradeNo != null" >
+        out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeIdentityId != null" >
+        payee_identity_id = #{payeeIdentityId,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeIdentityType != null" >
+        payee_identity_type = #{payeeIdentityType,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="enumSinaTradeState != null" >
+        enum_sina_trade_state = #{enumSinaTradeState,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where trade_id = #{tradeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.PaySinaTradeSell" >
+    update pay_sina_trade_sell
+    set application_id = #{applicationId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      payee_identity_id = #{payeeIdentityId,jdbcType=VARCHAR},
+      payee_identity_type = #{payeeIdentityType,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      enum_sina_trade_state = #{enumSinaTradeState,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where trade_id = #{tradeId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.HqDebtMapper">
+	<resultMap id="BaseResultMap" type="com.doro.background.dal.entity.HqDebt">
+		<id column="debt_id" property="debtId" jdbcType="BIGINT" />
+		<result column="enum_debt_type" property="enumDebtType" jdbcType="INTEGER" />
+		<result column="debt_name" property="debtName" jdbcType="VARCHAR" />
+		<result column="debt_amount" property="debtAmount" jdbcType="DECIMAL" />
+		<result column="repay_date" property="repayDate" jdbcType="DATE" />
+		<result column="debt_level" property="debtLevel" jdbcType="INTEGER" />
+		<result column="debt_from" property="debtFrom" jdbcType="VARCHAR" />
+		<result column="enum_debt_state" property="enumDebtState" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="enum_record_state" property="enumRecordState" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		debt_id, enum_debt_type, debt_name, debt_amount, repay_date, debt_level,
+		debt_from,
+		enum_debt_state, create_time, enum_record_state
+	</sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hq_debt
+    where debt_id = #{debtId,jdbcType=BIGINT}
+  </select>
+  
+	<!--查询债权分页列表 -->
+	<select id="selectPageList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select
+		<include refid="Base_Column_List" />
+		from hq_debt
+		<where>
+		    <if test="debtId != null and debtId!=''">
+				debt_id = #{debtId,jdbcType=BIGINT}
+			</if>
+			<if test="debtName != null and debtName!=''">
+				and debt_name  like CONCAT('%',#{debtName,jdbcType=VARCHAR},'%')
+			</if>
+		</where>
+		limit #{start},#{end}
+	</select>
+	
+	<!--查询债权分页列表 -->
+	<select id="selectPageListCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		select
+		count(0) selectPageListCount
+		from hq_debt
+		<where>
+		    <if test="debtId != null and debtId!=''">
+				debt_id = #{debtId,jdbcType=BIGINT}
+			</if>
+			<if test="debtName != null and debtName!=''">
+				and debt_name  like CONCAT('%',#{debtName,jdbcType=VARCHAR},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!--查询债权分页列表 -->
+	<select id="selectPageAuditList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select
+		<include refid="Base_Column_List" />
+		from hq_debt
+		<where>
+		    enum_debt_state = 100
+		    <if test="debtId != null and debtId!=''">
+				and debt_id = #{debtId,jdbcType=BIGINT}
+			</if>
+			<if test="debtName != null and debtName!=''">
+				and debt_name  like CONCAT('%',#{debtName,jdbcType=VARCHAR},'%')
+			</if>
+		</where>
+		limit #{start},#{end}
+	</select>
+	
+	<!--查询债权分页列表 -->
+	<select id="selectPageAuditListCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		select
+		count(0) selectPageAuditListCount
+		from hq_debt
+		<where>
+		    enum_debt_state = 100
+		    <if test="debtId != null and debtId!=''">
+				and debt_id = #{debtId,jdbcType=BIGINT}
+			</if>
+			<if test="debtName != null and debtName!=''">
+				and debt_name  like CONCAT('%',#{debtName,jdbcType=VARCHAR},'%')
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="com.doro.background.dal.entity.HqDebt" >
+    insert into hq_debt (debt_id, enum_debt_type, debt_name, 
+      debt_amount, repay_date, debt_level, 
+      debt_from, enum_debt_state, create_time, 
+      enum_record_state)
+    values (#{debtId,jdbcType=BIGINT}, #{enumDebtType,jdbcType=INTEGER}, #{debtName,jdbcType=VARCHAR}, 
+      #{debtAmount,jdbcType=DECIMAL}, #{repayDate,jdbcType=DATE}, #{debtLevel,jdbcType=INTEGER}, 
+      #{debtFrom,jdbcType=VARCHAR}, 0, now(), 100)
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.HqDebt" >
+    update hq_debt
+    <set >
+      <if test="enumDebtType != null and enumDebtType!=''" >
+        enum_debt_type = #{enumDebtType,jdbcType=INTEGER},
+      </if>
+      <if test="debtName != null and debtName!=''" >
+        debt_name = #{debtName,jdbcType=VARCHAR},
+      </if>
+      <if test="debtAmount != null and debtAmount!=''" >
+        debt_amount = #{debtAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="repayDate != null" >
+        repay_date = #{repayDate,jdbcType=DATE},
+      </if>
+      <if test="debtLevel != null and debtLevel!=''" >
+        debt_level = #{debtLevel,jdbcType=INTEGER},
+      </if>
+      <if test="debtFrom != null and debtFrom!=''" >
+        debt_from = #{debtFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="enumDebtState != null" >
+        enum_debt_state = #{enumDebtState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null and createTime!=''" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enumRecordState != null and enumRecordState!=''" >
+        enum_record_state = #{enumRecordState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where debt_id = #{debtId,jdbcType=BIGINT} limit 1
+  </update>
+</mapper>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.DqTargetMapper">
+	<resultMap id="BaseResultMap" type="com.doro.background.dal.entity.DqTarget">
+		<id column="target_id" property="targetId" jdbcType="BIGINT" />
+		<result column="target_name" property="targetName" jdbcType="VARCHAR" />
+		<result column="target_icon" property="targetIcon" jdbcType="VARCHAR" />
+		<result column="target_amount" property="targetAmount"
+			jdbcType="DECIMAL" />
+		<result column="buy_amount" property="buyAmount" jdbcType="DECIMAL" />
+		<result column="unit_amount" property="unitAmount" jdbcType="DECIMAL" />
+		<result column="min_amount" property="minAmount" jdbcType="DECIMAL" />
+		<result column="begin_date" property="beginDate" jdbcType="DATE" />
+		<result column="end_date" property="endDate" jdbcType="DATE" />
+		<result column="year_rate" property="yearRate" jdbcType="DECIMAL" />
+		<result column="day_rate" property="dayRate" jdbcType="DECIMAL" />
+		<result column="onsale_time" property="onsaleTime" jdbcType="TIMESTAMP" />
+		<result column="fullsale_time" property="fullsaleTime"
+			jdbcType="TIMESTAMP" />
+		<result column="enum_dqtarget_state" property="enumDqtargetState"
+			jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		target_id, target_name, target_icon, target_amount,
+		buy_amount, unit_amount,
+		min_amount,
+		begin_date, end_date, year_rate,
+		day_rate, onsale_time, fullsale_time,
+		enum_dqtarget_state,
+		create_time
+	</sql>
+
+	<select id="selectPageList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select
+		<include refid="Base_Column_List" />
+		from dq_target
+		<where>
+			<if test="targetName != null and targetName!=''">
+				target_name like
+				CONCAT('%',#{targetName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="targetId != null">
+				and target_id = #{targetId,jdbcType=VARCHAR}
+			</if>
+			<if test="startCreateTime != null">
+				and CONVERT(create_time,DATE) <![CDATA[>= ]]>
+				#{startCreateTime,jdbcType=DATE}
+			</if>
+			<if test="endCreateTime != null">
+				and CONVERT(create_time,DATE) <![CDATA[<= ]]>
+				#{endCreateTime,jdbcType=DATE}
+			</if>
+		</where>
+		ORDER BY create_time DESC limit #{start},#{end}
+	</select>
+
+    <select id="selectPageListCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		select
+		count(1) selectPageListCount
+		from dq_target
+		<where>
+			<if test="targetName != null and targetName!=''">
+				target_name like
+				CONCAT('%',#{targetName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="targetId != null">
+				and target_id = #{targetId,jdbcType=VARCHAR}
+			</if>
+			<if test="startCreateTime != null">
+				and CONVERT(create_time,DATE) <![CDATA[>= ]]>
+				#{startCreateTime,jdbcType=DATE}
+			</if>
+			<if test="endCreateTime != null">
+				and CONVERT(create_time,DATE) <![CDATA[<= ]]>
+				#{endCreateTime,jdbcType=DATE}
+			</if>
+		</where>
+	</select>
+
+
+<select id="selectPageAuditList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select
+		<include refid="Base_Column_List" />
+		from dq_target
+		<where>
+		    enum_dqtarget_state>0 and enum_dqtarget_state <![CDATA[<= ]]> 400
+			<if test="targetName != null and targetName!=''">
+				and target_name like
+				CONCAT('%',#{targetName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="targetId != null">
+				and target_id = #{targetId,jdbcType=VARCHAR}
+			</if>
+			<if test="startCreateTime != null">
+				and CONVERT(create_time,DATE) <![CDATA[>= ]]>
+				#{startCreateTime,jdbcType=DATE}
+			</if>
+			<if test="endCreateTime != null">
+				and CONVERT(create_time,DATE) <![CDATA[<= ]]>
+				#{endCreateTime,jdbcType=DATE}
+			</if>
+		</where>
+		limit #{start},#{end}
+	</select>
+
+    <select id="selectPageAuditListCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		select
+		count(1) selectPageAuditListCount
+		from dq_target
+		<where>
+		    enum_dqtarget_state>0 and enum_dqtarget_state <![CDATA[<= ]]> 400
+			<if test="targetName != null and targetName!=''">
+				and target_name like
+				CONCAT('%',#{targetName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="targetId != null">
+				and target_id = #{targetId,jdbcType=VARCHAR}
+			</if>
+			<if test="startCreateTime != null">
+				and CONVERT(create_time,DATE) <![CDATA[>= ]]>
+				#{startCreateTime,jdbcType=DATE}
+			</if>
+			<if test="endCreateTime != null">
+				and CONVERT(create_time,DATE) <![CDATA[<= ]]>
+				#{endCreateTime,jdbcType=DATE}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from dq_target
+		where target_id = #{targetId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		dq_target
+		where target_id = #{targetId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.doro.background.dal.entity.DqTarget">
+		insert into dq_target
+		(target_id, target_name, target_icon,
+		target_amount, buy_amount,
+		unit_amount,
+		min_amount, begin_date, end_date,
+		year_rate, day_rate,
+		onsale_time,
+		fullsale_time, enum_dqtarget_state, create_time
+		)
+		values
+		(#{targetId,jdbcType=BIGINT}, #{targetName,jdbcType=VARCHAR},
+		#{targetIcon,jdbcType=VARCHAR},
+		#{targetAmount,jdbcType=DECIMAL},
+		#{buyAmount,jdbcType=DECIMAL}, #{unitAmount,jdbcType=DECIMAL},
+		#{minAmount,jdbcType=DECIMAL}, #{beginDate,jdbcType=DATE},
+		#{endDate,jdbcType=DATE},
+		#{yearRate,jdbcType=DECIMAL},
+		#{dayRate,jdbcType=DECIMAL}, #{onsaleTime,jdbcType=TIMESTAMP},
+		#{fullsaleTime,jdbcType=TIMESTAMP},
+		#{enumDqtargetState,jdbcType=INTEGER},
+		now()
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.doro.background.dal.entity.DqTarget">
+		insert into dq_target
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="targetId != null">
+				target_id,
+			</if>
+			<if test="targetName != null">
+				target_name,
+			</if>
+			<if test="targetIcon != null">
+				target_icon,
+			</if>
+			<if test="targetAmount != null">
+				target_amount,
+			</if>
+			<if test="buyAmount != null">
+				buy_amount,
+			</if>
+			<if test="unitAmount != null">
+				unit_amount,
+			</if>
+			<if test="minAmount != null">
+				min_amount,
+			</if>
+			<if test="beginDate != null">
+				begin_date,
+			</if>
+			<if test="endDate != null">
+				end_date,
+			</if>
+			<if test="yearRate != null">
+				year_rate,
+			</if>
+			<if test="dayRate != null">
+				day_rate,
+			</if>
+			<if test="onsaleTime != null">
+				onsale_time,
+			</if>
+			<if test="fullsaleTime != null">
+				fullsale_time,
+			</if>
+			<if test="enumDqtargetState != null">
+				enum_dqtarget_state,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="targetId != null">
+				#{targetId,jdbcType=BIGINT},
+			</if>
+			<if test="targetName != null">
+				#{targetName,jdbcType=VARCHAR},
+			</if>
+			<if test="targetIcon != null">
+				#{targetIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="targetAmount != null">
+				#{targetAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="buyAmount != null">
+				#{buyAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="unitAmount != null">
+				#{unitAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="minAmount != null">
+				#{minAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="beginDate != null">
+				#{beginDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=DATE},
+			</if>
+			<if test="yearRate != null">
+				#{yearRate,jdbcType=DECIMAL},
+			</if>
+			<if test="dayRate != null">
+				#{dayRate,jdbcType=DECIMAL},
+			</if>
+			<if test="onsaleTime != null">
+				#{onsaleTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fullsaleTime != null">
+				#{fullsaleTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="enumDqtargetState != null">
+				#{enumDqtargetState,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.DqTarget">
+		update dq_target
+		<set>
+			<if test="targetName != null">
+				target_name = #{targetName,jdbcType=VARCHAR},
+			</if>
+			<if test="targetIcon != null">
+				target_icon = #{targetIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="targetAmount != null">
+				target_amount = #{targetAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="buyAmount != null">
+				buy_amount = #{buyAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="unitAmount != null">
+				unit_amount = #{unitAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="minAmount != null">
+				min_amount = #{minAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="beginDate != null">
+				begin_date = #{beginDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate,jdbcType=DATE},
+			</if>
+			<if test="yearRate != null">
+				year_rate = #{yearRate,jdbcType=DECIMAL},
+			</if>
+			<if test="dayRate != null">
+				day_rate = #{dayRate,jdbcType=DECIMAL},
+			</if>
+			<if test="onsaleTime != null">
+				onsale_time = #{onsaleTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fullsaleTime != null">
+				fullsale_time = #{fullsaleTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="enumDqtargetState != null">
+				enum_dqtarget_state =
+				#{enumDqtargetState,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where target_id = #{targetId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.DqTarget">
+		update dq_target
+		set target_name = #{targetName,jdbcType=VARCHAR},
+		target_icon =
+		#{targetIcon,jdbcType=VARCHAR},
+		target_amount =
+		#{targetAmount,jdbcType=DECIMAL},
+		buy_amount =
+		#{buyAmount,jdbcType=DECIMAL},
+		unit_amount =
+		#{unitAmount,jdbcType=DECIMAL},
+		min_amount =
+		#{minAmount,jdbcType=DECIMAL},
+		begin_date = #{beginDate,jdbcType=DATE},
+		end_date = #{endDate,jdbcType=DATE},
+		year_rate =
+		#{yearRate,jdbcType=DECIMAL},
+		day_rate = #{dayRate,jdbcType=DECIMAL},
+		onsale_time = #{onsaleTime,jdbcType=TIMESTAMP},
+		fullsale_time =
+		#{fullsaleTime,jdbcType=TIMESTAMP},
+		enum_dqtarget_state =
+		#{enumDqtargetState,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP}
+		where target_id =
+		#{targetId,jdbcType=BIGINT}
+	</update>
+</mapper>

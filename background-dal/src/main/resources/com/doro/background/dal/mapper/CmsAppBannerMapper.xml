@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.CmsAppBannerMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.CmsAppBanner" >
+    <id column="cms_auto_id" property="cmsAutoId" jdbcType="BIGINT" />
+    <result column="pic_src" property="picSrc" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="is_app_open" property="isAppOpen" jdbcType="BIT" />
+    <result column="h5_url" property="h5Url" jdbcType="VARCHAR" />
+    <result column="android_key" property="androidKey" jdbcType="VARCHAR" />
+    <result column="ios_key" property="iosKey" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="is_show" property="isShow" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cms_auto_id, pic_src, remark, is_app_open, h5_url, android_key, ios_key, sort, is_show
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from cms_app_banner
+    where cms_auto_id = #{cmsAutoId,jdbcType=BIGINT}
+  </select>
+  <!-- 统计总条数 -->
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.HashMap" >
+    select 
+    	count(0)
+    from cms_app_banner
+    where 1=1
+    <if test="picSrc != null" >
+      and pic_src = #{picSrc,jdbcType=VARCHAR}
+    </if>
+    <if test="remark != null" >
+      and remark = #{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="isAppOpen != null" >
+      and is_app_open = #{isAppOpen,jdbcType=BIT}
+    </if>
+    <if test="h5Url != null" >
+      and h5_url = #{h5Url,jdbcType=VARCHAR}
+    </if>
+    <if test="androidKey != null" >
+      and android_key = #{androidKey,jdbcType=VARCHAR}
+    </if>
+    <if test="iosKey != null" >
+      and ios_key = #{iosKey,jdbcType=VARCHAR}
+    </if>
+    <if test="sort != null" >
+      and sort = #{sort,jdbcType=INTEGER}
+    </if>
+    <if test="isShow != null" >
+      and is_show = #{isShow,jdbcType=BIT}
+    </if>
+  </select>
+  <!-- banner列表（分页） -->
+  <select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from cms_app_banner
+    <if test="picSrc != null" >
+      and pic_src = #{picSrc,jdbcType=VARCHAR}
+    </if>
+    <if test="remark != null" >
+      and remark = #{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="isAppOpen != null" >
+      and is_app_open = #{isAppOpen,jdbcType=BIT}
+    </if>
+    <if test="h5Url != null" >
+      and h5_url = #{h5Url,jdbcType=VARCHAR}
+    </if>
+    <if test="androidKey != null" >
+      and android_key = #{androidKey,jdbcType=VARCHAR}
+    </if>
+    <if test="iosKey != null" >
+      and ios_key = #{iosKey,jdbcType=VARCHAR}
+    </if>
+    <if test="sort != null" >
+      and sort = #{sort,jdbcType=INTEGER}
+    </if>
+    <if test="isShow != null" >
+      and is_show = #{isShow,jdbcType=BIT}
+    </if>
+    <if test="orderBy != null" >
+        #{orderBy}
+    </if>
+     limit #{start},#{end}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from cms_app_banner
+    where cms_auto_id = #{cmsAutoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.CmsAppBanner" >
+    insert into cms_app_banner (cms_auto_id, pic_src, remark, 
+      is_app_open, h5_url, android_key, 
+      ios_key, sort, is_show)
+    values (#{cmsAutoId,jdbcType=BIGINT}, #{picSrc,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{isAppOpen,jdbcType=BIT}, #{h5Url,jdbcType=VARCHAR}, #{androidKey,jdbcType=VARCHAR}, 
+      #{iosKey,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{isShow,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.CmsAppBanner" >
+    insert into cms_app_banner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cmsAutoId != null" >
+        cms_auto_id,
+      </if>
+      <if test="picSrc != null" >
+        pic_src,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="isAppOpen != null" >
+        is_app_open,
+      </if>
+      <if test="h5Url != null" >
+        h5_url,
+      </if>
+      <if test="androidKey != null" >
+        android_key,
+      </if>
+      <if test="iosKey != null" >
+        ios_key,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cmsAutoId != null" >
+        #{cmsAutoId,jdbcType=BIGINT},
+      </if>
+      <if test="picSrc != null" >
+        #{picSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isAppOpen != null" >
+        #{isAppOpen,jdbcType=BIT},
+      </if>
+      <if test="h5Url != null" >
+        #{h5Url,jdbcType=VARCHAR},
+      </if>
+      <if test="androidKey != null" >
+        #{androidKey,jdbcType=VARCHAR},
+      </if>
+      <if test="iosKey != null" >
+        #{iosKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.CmsAppBanner" >
+    update cms_app_banner
+    <set >
+      <if test="picSrc != null" >
+        pic_src = #{picSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isAppOpen != null" >
+        is_app_open = #{isAppOpen,jdbcType=BIT},
+      </if>
+      <if test="h5Url != null" >
+        h5_url = #{h5Url,jdbcType=VARCHAR},
+      </if>
+      <if test="androidKey != null" >
+        android_key = #{androidKey,jdbcType=VARCHAR},
+      </if>
+      <if test="iosKey != null" >
+        ios_key = #{iosKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=BIT},
+      </if>
+    </set>
+    where cms_auto_id = #{cmsAutoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.CmsAppBanner" >
+    update cms_app_banner
+    set pic_src = #{picSrc,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      is_app_open = #{isAppOpen,jdbcType=BIT},
+      h5_url = #{h5Url,jdbcType=VARCHAR},
+      android_key = #{androidKey,jdbcType=VARCHAR},
+      ios_key = #{iosKey,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      is_show = #{isShow,jdbcType=BIT}
+    where cms_auto_id = #{cmsAutoId,jdbcType=BIGINT}
+  </update>
+</mapper>

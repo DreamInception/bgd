@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.HqDebtPoolMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.HqDebtPool" >
+    <id column="pool_auto_id" property="poolAutoId" jdbcType="BIGINT" />
+    <result column="enum_debt_type" property="enumDebtType" jdbcType="INTEGER" />
+    <result column="debt_id" property="debtId" jdbcType="BIGINT" />
+    <result column="buy_amount" property="buyAmount" jdbcType="DECIMAL" />
+    <result column="current_amount" property="currentAmount" jdbcType="DECIMAL" />
+    <result column="debt_level" property="debtLevel" jdbcType="INTEGER" />
+    <result column="sell_user_id" property="sellUserId" jdbcType="BIGINT" />
+    <result column="repay_date" property="repayDate" jdbcType="DATE" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pool_auto_id, enum_debt_type, debt_id, buy_amount, current_amount, debt_level, sell_user_id, 
+    repay_date, create_time
+  </sql>
+   <!-- 匹配金额小于购买金额前五条 -->
+  <select id="queryDebtPollAse" resultMap="BaseResultMap" >
+  select * from (SELECT * from hq_debt_pool t where t.current_amount &lt;#{0} and t.current_amount&gt;0 and t.repay_date&gt;DATE(NOW()) and t.sell_user_id != #{1} ORDER BY t.current_amount desc LIMIT 0,10) d order by d.current_amount asc 
+  </select>
+  
+  <!-- 匹配金额大于购买金额后五条 -->
+  <select id="queryDebtPollDesc" resultMap="BaseResultMap" >
+  SELECT * from hq_debt_pool t where t.current_amount &gt;=#{0} and t.repay_date&gt;DATE(NOW()) and t.sell_user_id != #{1} ORDER BY t.current_amount asc LIMIT 0,1
+  </select>
+  <select id="queryDebtPollForUpdate" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hq_debt_pool
+    where pool_auto_id = #{poolAutoId,jdbcType=BIGINT} for update
+  </select>
+  <update id="updateCurrentAmount" parameterType="com.doro.background.dal.entity.HqDebtPool">
+   update hq_debt_pool
+    set 
+      current_amount =current_amount - #{currentAmount,jdbcType=DECIMAL}
+      
+    where pool_auto_id = #{poolAutoId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hq_debt_pool
+    where pool_auto_id = #{poolAutoId,jdbcType=BIGINT}
+  </select>
+  <!-- 统计去重条数 -->
+  <select id="countDistinct" resultType="java.util.HashMap">
+    select * from
+    ((select count(0) as a from hq_debt_pool where buy_amount &gt; 0) as a,
+    (select count(distinct debt_id) as b from hq_debt_pool where buy_amount &gt; 0) as b,
+    (select sum(buy_amount) as c from hq_debt_pool where sell_user_id = 0) as c,
+    (select sum(current_amount) as d from hq_debt_pool where current_amount &gt; 0) as d,
+    (select count(sell_user_id) as e from hq_debt_pool where sell_user_id !=0) as e,
+    (select count(sell_user_id) as f from hq_debt_pool where sell_user_id =0) as f)
+  </select>
+  <!-- 统计条数 -->
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.HashMap" >
+    select 
+     count(0)
+    from hq_debt_pool
+     where 1=1
+    <if test="enumDebtType != null" >
+        and enum_debt_type = #{enumDebtType,jdbcType=INTEGER}
+      </if>
+      <if test="debtId != null" >
+        and debt_id = #{debtId,jdbcType=BIGINT}
+      </if>
+      <if test="buyAmount != null" >
+        and buy_amount = #{buyAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="currentAmount != null" >
+        and current_amount = #{currentAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="debtLevel != null" >
+        and debt_level = #{debtLevel,jdbcType=INTEGER}
+      </if>
+      <if test="sellUserId != null" >
+        and sell_user_id = #{sellUserId,jdbcType=BIGINT}
+      </if>
+      <if test="repayDate != null" >
+        and repay_date = #{repayDate,jdbcType=DATE}
+      </if>
+      <if test="createTime != null" >
+        and CONVERT(create_time,DATE) = #{createTime,jdbcType=DATE}
+      </if>
+      <if test="startCreateTime != null" >
+        and CONVERT(create_time,DATE) <![CDATA[>= ]]> #{startCreateTime,jdbcType=DATE}
+      </if>
+      <if test="endCreateTime != null" >
+        and CONVERT(create_time,DATE) <![CDATA[<= ]]> #{endCreateTime,jdbcType=DATE}
+      </if>
+  </select>
+  <!-- 债权池列表 -->
+  <select id="selectPageList" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from hq_debt_pool
+    where 1=1
+    <if test="enumDebtType != null" >
+        and enum_debt_type = #{enumDebtType,jdbcType=INTEGER}
+      </if>
+      <if test="debtId != null" >
+        and debt_id = #{debtId,jdbcType=BIGINT}
+      </if>
+      <if test="buyAmount != null" >
+        and buy_amount = #{buyAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="currentAmount != null" >
+        and current_amount = #{currentAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="debtLevel != null" >
+        and debt_level = #{debtLevel,jdbcType=INTEGER}
+      </if>
+      <if test="sellUserId != null" >
+        and sell_user_id = #{sellUserId,jdbcType=BIGINT}
+      </if>
+      <if test="repayDate != null" >
+        and repay_date = #{repayDate,jdbcType=DATE}
+      </if>
+      <if test="createTime != null" >
+        and CONVERT(create_time,DATE) = #{createTime,jdbcType=DATE}
+      </if>
+      <if test="startCreateTime != null" >
+        and CONVERT(create_time,DATE) <![CDATA[>= ]]> #{startCreateTime,jdbcType=DATE}
+      </if>
+      <if test="endCreateTime != null" >
+        and CONVERT(create_time,DATE) <![CDATA[<= ]]> #{endCreateTime,jdbcType=DATE}
+      </if>
+    order by create_time DESC
+    limit #{start},#{end}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hq_debt_pool
+    where pool_auto_id = #{poolAutoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.HqDebtPool" >
+    insert into hq_debt_pool (pool_auto_id, enum_debt_type, debt_id, 
+      buy_amount, current_amount, debt_level, 
+      sell_user_id, repay_date, create_time
+      )
+    values (#{poolAutoId,jdbcType=BIGINT}, #{enumDebtType,jdbcType=INTEGER}, #{debtId,jdbcType=BIGINT}, 
+      #{buyAmount,jdbcType=DECIMAL}, #{currentAmount,jdbcType=DECIMAL}, #{debtLevel,jdbcType=INTEGER}, 
+      #{sellUserId,jdbcType=BIGINT}, #{repayDate,jdbcType=DATE}, now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.HqDebtPool" >
+    insert into hq_debt_pool
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="poolAutoId != null" >
+        pool_auto_id,
+      </if>
+      <if test="enumDebtType != null" >
+        enum_debt_type,
+      </if>
+      <if test="debtId != null" >
+        debt_id,
+      </if>
+      <if test="buyAmount != null" >
+        buy_amount,
+      </if>
+      <if test="currentAmount != null" >
+        current_amount,
+      </if>
+      <if test="debtLevel != null" >
+        debt_level,
+      </if>
+      <if test="sellUserId != null" >
+        sell_user_id,
+      </if>
+      <if test="repayDate != null" >
+        repay_date,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="poolAutoId != null" >
+        #{poolAutoId,jdbcType=BIGINT},
+      </if>
+      <if test="enumDebtType != null" >
+        #{enumDebtType,jdbcType=INTEGER},
+      </if>
+      <if test="debtId != null" >
+        #{debtId,jdbcType=BIGINT},
+      </if>
+      <if test="buyAmount != null" >
+        #{buyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentAmount != null" >
+        #{currentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="debtLevel != null" >
+        #{debtLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sellUserId != null" >
+        #{sellUserId,jdbcType=BIGINT},
+      </if>
+      <if test="repayDate != null" >
+        #{repayDate,jdbcType=DATE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.HqDebtPool" >
+    update hq_debt_pool
+    <set >
+      <if test="enumDebtType != null" >
+        enum_debt_type = #{enumDebtType,jdbcType=INTEGER},
+      </if>
+      <if test="debtId != null" >
+        debt_id = #{debtId,jdbcType=BIGINT},
+      </if>
+      <if test="buyAmount != null" >
+        buy_amount = #{buyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentAmount != null" >
+        current_amount = #{currentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="debtLevel != null" >
+        debt_level = #{debtLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sellUserId != null" >
+        sell_user_id = #{sellUserId,jdbcType=BIGINT},
+      </if>
+      <if test="repayDate != null" >
+        repay_date = #{repayDate,jdbcType=DATE},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where pool_auto_id = #{poolAutoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.HqDebtPool" >
+    update hq_debt_pool
+    set enum_debt_type = #{enumDebtType,jdbcType=INTEGER},
+      debt_id = #{debtId,jdbcType=BIGINT},
+      buy_amount = #{buyAmount,jdbcType=DECIMAL},
+      current_amount = #{currentAmount,jdbcType=DECIMAL},
+      debt_level = #{debtLevel,jdbcType=INTEGER},
+      sell_user_id = #{sellUserId,jdbcType=BIGINT},
+      repay_date = #{repayDate,jdbcType=DATE},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where pool_auto_id = #{poolAutoId,jdbcType=BIGINT}
+  </update>
+</mapper>

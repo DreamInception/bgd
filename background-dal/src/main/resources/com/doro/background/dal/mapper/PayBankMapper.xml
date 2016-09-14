@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.PayBankMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.PayBank" >
+    <id column="auto_id" property="autoId" jdbcType="BIGINT" />
+    <result column="bank_code" property="bankCode" jdbcType="VARCHAR" />
+    <result column="channel_bank_code" property="channelBankCode" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="times_limit" property="timesLimit" jdbcType="DECIMAL" />
+    <result column="day_limit" property="dayLimit" jdbcType="DECIMAL" />
+    <result column="tip" property="tip" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="enum_expense_income_channel" property="enumExpenseIncomeChannel" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="is_enable" property="isEnable" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    auto_id, bank_code, channel_bank_code, bank_name, times_limit, day_limit, tip, icon, 
+    enum_expense_income_channel, sort, is_enable
+  </sql>
+  
+   <select id="selectBankName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_bank
+    where  enum_expense_income_channel = 200 and is_enable=1 and channel_bank_code=#{bankCode}
+  </select>
+  <select id="selectBankList" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_bank
+    where  enum_expense_income_channel = 200 and is_enable=1 order by sort
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_bank
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from pay_bank
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.PayBank" >
+    insert into pay_bank (auto_id, bank_code, channel_bank_code, 
+      bank_name, times_limit, day_limit, 
+      tip, icon, enum_expense_income_channel, 
+      sort, is_enable)
+    values (#{autoId,jdbcType=BIGINT}, #{bankCode,jdbcType=VARCHAR}, #{channelBankCode,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{timesLimit,jdbcType=DECIMAL}, #{dayLimit,jdbcType=DECIMAL}, 
+      #{tip,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{enumExpenseIncomeChannel,jdbcType=INTEGER}, 
+      #{sort,jdbcType=INTEGER}, #{isEnable,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.PayBank" >
+    insert into pay_bank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="autoId != null" >
+        auto_id,
+      </if>
+      <if test="bankCode != null" >
+        bank_code,
+      </if>
+      <if test="channelBankCode != null" >
+        channel_bank_code,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="timesLimit != null" >
+        times_limit,
+      </if>
+      <if test="dayLimit != null" >
+        day_limit,
+      </if>
+      <if test="tip != null" >
+        tip,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="enumExpenseIncomeChannel != null" >
+        enum_expense_income_channel,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="isEnable != null" >
+        is_enable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="autoId != null" >
+        #{autoId,jdbcType=BIGINT},
+      </if>
+      <if test="bankCode != null" >
+        #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="channelBankCode != null" >
+        #{channelBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="timesLimit != null" >
+        #{timesLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="dayLimit != null" >
+        #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="tip != null" >
+        #{tip,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="enumExpenseIncomeChannel != null" >
+        #{enumExpenseIncomeChannel,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="isEnable != null" >
+        #{isEnable,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.PayBank" >
+    update pay_bank
+    <set >
+      <if test="bankCode != null" >
+        bank_code = #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="channelBankCode != null" >
+        channel_bank_code = #{channelBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="timesLimit != null" >
+        times_limit = #{timesLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="dayLimit != null" >
+        day_limit = #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="tip != null" >
+        tip = #{tip,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="enumExpenseIncomeChannel != null" >
+        enum_expense_income_channel = #{enumExpenseIncomeChannel,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="isEnable != null" >
+        is_enable = #{isEnable,jdbcType=BIT},
+      </if>
+    </set>
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.PayBank" >
+    update pay_bank
+    set bank_code = #{bankCode,jdbcType=VARCHAR},
+      channel_bank_code = #{channelBankCode,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      times_limit = #{timesLimit,jdbcType=DECIMAL},
+      day_limit = #{dayLimit,jdbcType=DECIMAL},
+      tip = #{tip,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      enum_expense_income_channel = #{enumExpenseIncomeChannel,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      is_enable = #{isEnable,jdbcType=BIT}
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </update>
+</mapper>

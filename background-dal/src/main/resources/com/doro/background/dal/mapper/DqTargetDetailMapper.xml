@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.DqTargetDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.DqTargetDetail" >
+    <id column="target_id" property="targetId" jdbcType="BIGINT" />
+    <result column="seller_name" property="sellerName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.doro.background.dal.entity.DqTargetDetail" extends="BaseResultMap" >
+    <result column="dq_content" property="dqContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    target_id, seller_name
+  </sql>
+  <sql id="Blob_Column_List" >
+    dq_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dq_target_detail
+    where target_id = #{targetId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from dq_target_detail
+    where target_id = #{targetId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.DqTargetDetail" >
+    insert into dq_target_detail (target_id, seller_name, dq_content
+      )
+    values (#{targetId,jdbcType=BIGINT}, #{sellerName,jdbcType=VARCHAR}, #{dqContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.DqTargetDetail" >
+    insert into dq_target_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="targetId != null" >
+        target_id,
+      </if>
+      <if test="sellerName != null" >
+        seller_name,
+      </if>
+      <if test="dqContent != null" >
+        dq_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="targetId != null" >
+        #{targetId,jdbcType=BIGINT},
+      </if>
+      <if test="sellerName != null" >
+        #{sellerName,jdbcType=VARCHAR},
+      </if>
+      <if test="dqContent != null" >
+        #{dqContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.DqTargetDetail" >
+    update dq_target_detail
+    <set >
+      <if test="sellerName != null" >
+        seller_name = #{sellerName,jdbcType=VARCHAR},
+      </if>
+      <if test="dqContent != null" >
+        dq_content = #{dqContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where target_id = #{targetId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.doro.background.dal.entity.DqTargetDetail" >
+    update dq_target_detail
+    set seller_name = #{sellerName,jdbcType=VARCHAR},
+      dq_content = #{dqContent,jdbcType=LONGVARCHAR}
+    where target_id = #{targetId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.DqTargetDetail" >
+    update dq_target_detail
+    set seller_name = #{sellerName,jdbcType=VARCHAR}
+    where target_id = #{targetId,jdbcType=BIGINT}
+  </update>
+</mapper>

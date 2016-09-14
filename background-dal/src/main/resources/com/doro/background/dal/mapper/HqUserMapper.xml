@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.doro.background.dal.mapper.HqUserMapper">
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.HqUser" >
+    <id column="hq_user_id" property="hqUserId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="target_id" property="targetId" jdbcType="BIGINT" />
+    <result column="buy_amount" property="buyAmount" jdbcType="DECIMAL" />
+    <result column="current_amount" property="currentAmount" jdbcType="DECIMAL" />
+    <result column="year_rate" property="yearRate" jdbcType="DECIMAL" />
+    <result column="day_rate" property="dayRate" jdbcType="DECIMAL" />
+    <result column="next_append_date" property="nextAppendDate" jdbcType="DATE" />
+    <result column="next_pay_date" property="nextPayDate" jdbcType="DATE" />
+    <result column="is_match" property="isMatch" jdbcType="BIT" />
+    <result column="match_time" property="matchTime" jdbcType="TIMESTAMP" />
+    <result column="buy_time" property="buyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="hqUserMap" type="com.doro.background.dal.entity.HqUser" >
+    <result column="buy_amount" property="buyAmount" jdbcType="DECIMAL" />
+    <result column="buy_time" property="buyTime" jdbcType="TIMESTAMP" />
+    <result column="current_amount" property="currentAmount" jdbcType="DECIMAL" />
+    <result column="year_rate" property="yearRate" jdbcType="DECIMAL" />
+    <result column="next_append_date" property="nextAppendDate" jdbcType="DATE" />
+    <result column="next_pay_date" property="nextPayDate" jdbcType="DATE" />
+    <association property="user" javaType="com.doro.background.dal.entity.UserLogin">
+    	<result column="user_mobile" jdbcType="VARCHAR" property="userMobile"/>
+    	<result column="user_name" jdbcType="VARCHAR" property="userName"/>
+    </association>
+    
+    <association property="hqTarget" javaType="com.doro.background.dal.entity.HqTarget">
+    	<result column="target_name" jdbcType="VARCHAR" property="targetName"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    hq_user_id, user_id, target_id, buy_amount, current_amount, year_rate, day_rate, 
+    next_append_date, next_pay_date, is_match, match_time, buy_time
+  </sql>
+ 
+ <select id="hqUserList" resultMap="hqUserMap">
+ SELECT ht.`target_name`,u.`user_mobile`,u.`user_name`,hu.`buy_amount`,hu.`current_amount`,hu.`year_rate`,hu.`next_append_date`,hu.`next_pay_date`,hu.`buy_time` FROM hq_user hu LEFT JOIN hq_target ht ON hu.`target_id` = ht.`target_id` LEFT JOIN user_login u ON hu.`user_id` = u.`user_id`
+ </select>
+ 
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hq_user
+    where hq_user_id = #{hqUserId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from hq_user
+    where hq_user_id = #{hqUserId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.HqUser">
+    insert into hq_user (hq_user_id, user_id, target_id, 
+      buy_amount, current_amount, year_rate, 
+      day_rate, next_append_date, next_pay_date, 
+      is_match, match_time, buy_time
+      )
+    values (#{hqUserId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT}, 
+      #{buyAmount,jdbcType=DECIMAL}, #{currentAmount,jdbcType=DECIMAL}, #{yearRate,jdbcType=DECIMAL}, 
+      #{dayRate,jdbcType=DECIMAL}, #{nextAppendDate,jdbcType=DATE}, #{nextPayDate,jdbcType=DATE}, 
+      #{isMatch,jdbcType=BIT}, #{matchTime,jdbcType=TIMESTAMP}, #{buyTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.HqUser">
+    insert into hq_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hqUserId != null">
+        hq_user_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="targetId != null">
+        target_id,
+      </if>
+      <if test="buyAmount != null">
+        buy_amount,
+      </if>
+      <if test="currentAmount != null">
+        current_amount,
+      </if>
+      <if test="yearRate != null">
+        year_rate,
+      </if>
+      <if test="dayRate != null">
+        day_rate,
+      </if>
+      <if test="nextAppendDate != null">
+        next_append_date,
+      </if>
+      <if test="nextPayDate != null">
+        next_pay_date,
+      </if>
+      <if test="isMatch != null">
+        is_match,
+      </if>
+      <if test="matchTime != null">
+        match_time,
+      </if>
+      <if test="buyTime != null">
+        buy_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hqUserId != null">
+        #{hqUserId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="targetId != null">
+        #{targetId,jdbcType=BIGINT},
+      </if>
+      <if test="buyAmount != null">
+        #{buyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentAmount != null">
+        #{currentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="yearRate != null">
+        #{yearRate,jdbcType=DECIMAL},
+      </if>
+      <if test="dayRate != null">
+        #{dayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="nextAppendDate != null">
+        #{nextAppendDate,jdbcType=DATE},
+      </if>
+      <if test="nextPayDate != null">
+        #{nextPayDate,jdbcType=DATE},
+      </if>
+      <if test="isMatch != null">
+        #{isMatch,jdbcType=BIT},
+      </if>
+      <if test="matchTime != null">
+        #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyTime != null">
+        #{buyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.HqUser">
+    update hq_user
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=BIGINT},
+      </if>
+      <if test="buyAmount != null">
+        buy_amount = #{buyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentAmount != null">
+        current_amount = #{currentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="yearRate != null">
+        year_rate = #{yearRate,jdbcType=DECIMAL},
+      </if>
+      <if test="dayRate != null">
+        day_rate = #{dayRate,jdbcType=DECIMAL},
+      </if>
+      <if test="nextAppendDate != null">
+        next_append_date = #{nextAppendDate,jdbcType=DATE},
+      </if>
+      <if test="nextPayDate != null">
+        next_pay_date = #{nextPayDate,jdbcType=DATE},
+      </if>
+      <if test="isMatch != null">
+        is_match = #{isMatch,jdbcType=BIT},
+      </if>
+      <if test="matchTime != null">
+        match_time = #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyTime != null">
+        buy_time = #{buyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where hq_user_id = #{hqUserId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.HqUser">
+    update hq_user
+    set user_id = #{userId,jdbcType=BIGINT},
+      target_id = #{targetId,jdbcType=BIGINT},
+      buy_amount = #{buyAmount,jdbcType=DECIMAL},
+      current_amount = #{currentAmount,jdbcType=DECIMAL},
+      year_rate = #{yearRate,jdbcType=DECIMAL},
+      day_rate = #{dayRate,jdbcType=DECIMAL},
+      next_append_date = #{nextAppendDate,jdbcType=DATE},
+      next_pay_date = #{nextPayDate,jdbcType=DATE},
+      is_match = #{isMatch,jdbcType=BIT},
+      match_time = #{matchTime,jdbcType=TIMESTAMP},
+      buy_time = #{buyTime,jdbcType=TIMESTAMP}
+    where hq_user_id = #{hqUserId,jdbcType=BIGINT}
+  </update>
+  <!-- 后台管理-用户投资活期列表条数统计 -->
+  <select id="hqBusinessCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+    select 
+    count(0)
+    from hq_user hu 
+    where
+    1=1
+    <if test="startDate != null" >
+        and date_format(#{startDate},'%Y%m%d') <![CDATA[<=]]> CONVERT(hu.buy_time,DATE)
+    </if>
+    <if test="endDate != null" >
+        and date_format(#{endDate},'%Y%m%d') <![CDATA[>=]]> CONVERT(hu.buy_time,DATE)
+    </if>
+    <if test="userMobile != null" >
+        and hu.user_id = (select ul.user_id from user_login ul where ul.user_mobile = #{userMobile})
+    </if>
+  </select>
+ <!-- 后台管理-用户投资活期列表 -->
+  <select id="selectHqBusinessList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+    select 
+    (select ht.target_name from hq_target ht where ht.target_id = hu.target_id) as targetName,
+    (select ul.user_name from user_login ul where ul.user_id = hu.user_id) as userName,
+    (select ul.user_mobile from user_login ul where ul.user_id = hu.user_id) as userMobile,
+    hu.buy_amount as buyAmount,
+    hu.current_amount as currentAmount,
+    hu.year_rate as yearRate,
+    hu.next_append_date as nextAppendDate,
+    hu.next_pay_date as nextPayDate,
+    hu.buy_time as buyTime
+    from hq_user hu 
+    where
+    1=1
+    <if test="startDate != null" >
+        and date_format(#{startDate},'%Y%m%d') <![CDATA[<=]]> CONVERT(hu.buy_time,DATE)
+    </if>
+    <if test="endDate != null" >
+        and date_format(#{endDate},'%Y%m%d') <![CDATA[>=]]> CONVERT(hu.buy_time,DATE)
+    </if>
+    <if test="userMobile != null" >
+        and hu.user_id = (select ul.user_id from user_login ul where ul.user_mobile = #{userMobile})
+    </if>
+    <if test="orderBy != null" >
+        #{orderBy}
+    </if>
+    limit #{start},#{end}
+  </select>
+  <!-- 后台管理-活期投资列表统计 -->
+  <select id="selectHqPageList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+    select 
+    (select ht.target_name from hq_target ht where ht.target_id = ut.target_id) as targetName,
+    sum(ut.current_amount) as currentAmount,
+    count(ut.user_id) as userNum,
+    CONVERT(ut.buy_time,DATE) as buyTime
+    from hq_user ut 
+    where 
+    ut.current_amount <![CDATA[>]]> 0
+    <if test="startDate != null" >
+        and date_format(#{startDate},'%Y%m%d') <![CDATA[<=]]> CONVERT(ut.buy_time,DATE)
+    </if>
+    <if test="endDate != null" >
+        and date_format(#{endDate},'%Y%m%d') <![CDATA[>=]]> CONVERT(ut.buy_time,DATE)
+    </if>
+    group by CONVERT(ut.buy_time,DATE)
+    order by CONVERT(ut.buy_time,DATE) DESC
+  </select>
+</mapper>

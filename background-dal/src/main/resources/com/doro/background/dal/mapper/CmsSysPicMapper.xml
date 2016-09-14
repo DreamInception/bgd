@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.CmsSysPicMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.CmsSysPic" >
+    <id column="auto_id" property="autoId" jdbcType="BIGINT" />
+    <result column="pic_code" property="picCode" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    auto_id, pic_code, pic_url, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from cms_sys_pic
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPicUrl" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from cms_sys_pic
+    where pic_url = #{picUrl,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPicCode" resultType="java.util.HashMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from cms_sys_pic
+    where pic_code = #{picCode,jdbcType=VARCHAR}
+  </select>
+  <!-- 系统图片分页列表 -->
+  <select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from cms_sys_pic
+    <if test="orderBy != null" >
+      #{orderBy}
+    </if>
+     limit #{start},#{end}
+  </select>
+  <!-- 查询符合条件的记录条数 -->
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.HashMap" >
+    select 
+    	count(0)
+    from cms_sys_pic
+    where 1=1
+    <if test="picCode != null" >
+      and pic_code = #{picCode,jdbcType=VARCHAR}
+    </if>
+    <if test="picUrl != null" >
+      and pic_url = #{picUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="remark != null" >
+      and remark = #{remark,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from cms_sys_pic
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.CmsSysPic" >
+    insert into cms_sys_pic (auto_id, pic_code, pic_url, 
+      remark)
+    values (#{autoId,jdbcType=BIGINT}, #{picCode,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.CmsSysPic" >
+    insert into cms_sys_pic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="autoId != null" >
+        auto_id,
+      </if>
+      <if test="picCode != null" >
+        pic_code,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="autoId != null" >
+        #{autoId,jdbcType=BIGINT},
+      </if>
+      <if test="picCode != null" >
+        #{picCode,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.CmsSysPic" >
+    update cms_sys_pic
+    <set >
+      <if test="picCode != null" >
+        pic_code = #{picCode,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.CmsSysPic" >
+    update cms_sys_pic
+    set pic_code = #{picCode,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </update>
+</mapper>

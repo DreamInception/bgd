@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.doro.background.dal.mapper.SysAppVersionMapper">
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.SysAppVersion">
+    <id column="app_version_id" jdbcType="BIGINT" property="appVersionId" />
+    <result column="app_client" jdbcType="VARCHAR" property="appClient" />
+    <result column="app_version_int" jdbcType="INTEGER" property="appVersionInt" />
+    <result column="app_version_str" jdbcType="VARCHAR" property="appVersionStr" />
+    <result column="enum_app_version_state" jdbcType="INTEGER" property="enumAppVersionState" />
+    <result column="is_must" jdbcType="BIT" property="isMust" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    app_version_id, app_client, app_version_int, app_version_str, enum_app_version_state, 
+    is_must, remark, pic_url, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_app_version
+    where app_version_id = #{appVersionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_app_version
+    where app_version_id = #{appVersionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.SysAppVersion">
+    insert into sys_app_version (app_version_id, app_client, app_version_int, 
+      app_version_str, enum_app_version_state, is_must, 
+      remark, pic_url, create_time
+      )
+    values (#{appVersionId,jdbcType=BIGINT}, #{appClient,jdbcType=VARCHAR}, #{appVersionInt,jdbcType=INTEGER}, 
+      #{appVersionStr,jdbcType=VARCHAR}, #{enumAppVersionState,jdbcType=INTEGER}, #{isMust,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.SysAppVersion">
+    insert into sys_app_version
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appVersionId != null">
+        app_version_id,
+      </if>
+      <if test="appClient != null">
+        app_client,
+      </if>
+      <if test="appVersionInt != null">
+        app_version_int,
+      </if>
+      <if test="appVersionStr != null">
+        app_version_str,
+      </if>
+      <if test="enumAppVersionState != null">
+        enum_app_version_state,
+      </if>
+      <if test="isMust != null">
+        is_must,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="picUrl != null">
+        pic_url,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appVersionId != null">
+        #{appVersionId,jdbcType=BIGINT},
+      </if>
+      <if test="appClient != null">
+        #{appClient,jdbcType=VARCHAR},
+      </if>
+      <if test="appVersionInt != null">
+        #{appVersionInt,jdbcType=INTEGER},
+      </if>
+      <if test="appVersionStr != null">
+        #{appVersionStr,jdbcType=VARCHAR},
+      </if>
+      <if test="enumAppVersionState != null">
+        #{enumAppVersionState,jdbcType=INTEGER},
+      </if>
+      <if test="isMust != null">
+        #{isMust,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null">
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.SysAppVersion">
+    update sys_app_version
+    <set>
+      <if test="appClient != null">
+        app_client = #{appClient,jdbcType=VARCHAR},
+      </if>
+      <if test="appVersionInt != null">
+        app_version_int = #{appVersionInt,jdbcType=INTEGER},
+      </if>
+      <if test="appVersionStr != null">
+        app_version_str = #{appVersionStr,jdbcType=VARCHAR},
+      </if>
+      <if test="enumAppVersionState != null">
+        enum_app_version_state = #{enumAppVersionState,jdbcType=INTEGER},
+      </if>
+      <if test="isMust != null">
+        is_must = #{isMust,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null">
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where app_version_id = #{appVersionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.SysAppVersion">
+    update sys_app_version
+    set app_client = #{appClient,jdbcType=VARCHAR},
+      app_version_int = #{appVersionInt,jdbcType=INTEGER},
+      app_version_str = #{appVersionStr,jdbcType=VARCHAR},
+      enum_app_version_state = #{enumAppVersionState,jdbcType=INTEGER},
+      is_must = #{isMust,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where app_version_id = #{appVersionId,jdbcType=BIGINT}
+  </update>
+  <!-- 查询版本列表 -->
+  <select id="selectVersionList" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_app_version
+    where 1=1
+    <if test="appClient != null" >
+        and app_client = #{appClient,jdbcType=VARCHAR}
+    </if>
+    <if test="enumAppVersionState != null" >
+        and enum_app_version_state = #{enumAppVersionState,jdbcType=INTEGER}
+    </if>
+    order by app_version_int DESC
+  </select>
+  <!-- 统计符合条件的条数 -->
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.HashMap" >
+    select 
+     count(0)
+    from sys_app_version
+    where 1=1
+    <if test="appVersionId != null" >
+        and #{appVersionId,jdbcType=BIGINT}
+      </if>
+      <if test="appClient != null" >
+        and #{appClient,jdbcType=VARCHAR}
+      </if>
+      <if test="appVersionInt != null" >
+        and #{appVersionInt,jdbcType=INTEGER}
+      </if>
+      <if test="appVersionStr != null" >
+        and #{appVersionStr,jdbcType=VARCHAR}
+      </if>
+      <if test="enumAppVersionState != null" >
+        and #{enumAppVersionState,jdbcType=INTEGER}
+      </if>
+      <if test="isMust != null" >
+        and #{isMust,jdbcType=BIT}
+      </if>
+      <if test="remark != null" >
+        and #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and #{createTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+</mapper>

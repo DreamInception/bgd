@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.doro.background.dal.mapper.UserAssetMapper">
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.UserAsset">
+    <id column="user_asset_id" jdbcType="BIGINT" property="userAssetId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="enum_asset" jdbcType="INTEGER" property="enumAsset" />
+    <result column="asset_balance" jdbcType="DECIMAL" property="assetBalance" />
+    <result column="asset_frozen" jdbcType="DECIMAL" property="assetFrozen" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_asset_id, user_id, enum_asset, asset_balance, asset_frozen
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_asset
+    where user_asset_id = #{userAssetId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据userid查询用户资产 -->
+  <select id="selectHqByUserIdForUpdate" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_asset
+    where
+    user_id = #{userId,jdbcType=BIGINT}
+	and enum_asset = 0
+	for update
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_asset
+    where user_asset_id = #{userAssetId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.UserAsset">
+    insert into user_asset (user_asset_id, user_id, enum_asset, 
+      asset_balance, asset_frozen)
+    values (#{userAssetId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{enumAsset,jdbcType=INTEGER}, 
+      #{assetBalance,jdbcType=DECIMAL}, #{assetFrozen,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.UserAsset">
+    insert into user_asset
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userAssetId != null">
+        user_asset_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="enumAsset != null">
+        enum_asset,
+      </if>
+      <if test="assetBalance != null">
+        asset_balance,
+      </if>
+      <if test="assetFrozen != null">
+        asset_frozen,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userAssetId != null">
+        #{userAssetId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="enumAsset != null">
+        #{enumAsset,jdbcType=INTEGER},
+      </if>
+      <if test="assetBalance != null">
+        #{assetBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="assetFrozen != null">
+        #{assetFrozen,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.UserAsset">
+    update user_asset
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="enumAsset != null">
+        enum_asset = #{enumAsset,jdbcType=INTEGER},
+      </if>
+      <if test="assetBalance != null">
+        asset_balance = #{assetBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="assetFrozen != null">
+        asset_frozen = #{assetFrozen,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where user_asset_id = #{userAssetId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.UserAsset">
+    update user_asset
+    set user_id = #{userId,jdbcType=BIGINT},
+      enum_asset = #{enumAsset,jdbcType=INTEGER},
+      asset_balance = #{assetBalance,jdbcType=DECIMAL},
+      asset_frozen = #{assetFrozen,jdbcType=DECIMAL}
+    where user_asset_id = #{userAssetId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,414 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #393939;
+    line-height: 1.5;
+    min-height: 100%;
+}
+
+ul li {
+    list-style: none;
+}
+
+img {
+    border: none;
+    -webkit-transform: scale(1) rotate(0) translate3d(0, 0, 0);
+    transform: scale(1) rotate(0) translate3d(0, 0, 0);
+}
+
+a {
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+input {
+    border: none;
+}
+.f-cb:after{
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+    font-size: 0;
+}
+.textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
+    border-radius: 0 !important;
+    color: #858585;
+    background-color: #fff;
+    border: 1px solid #d5d5d5;
+    padding: 5px 4px;
+    line-height: 1.2;
+    font-size: 14px;
+    font-family: inherit;
+    box-shadow: none;
+!important;
+    -webkit-box-shadow: none !important;
+    -webkit-transition-duration: .1s;
+    transition-duration: .1s;
+}
+.aptPos{
+	position: fixed;
+	top: 200px;
+	display: none;
+}
+.refreshBtn{
+	position: absolute;
+	right: 20px;
+	top: 5px;
+}
+.form-group input{
+	font-size: 15px!important;
+	padding: 5px 10px;
+	line-height: 1.5;
+	height: 30px;
+}
+/*------------------------------------------------------------CSS For login.HTML------------------------------------------------------*/
+.login-layout {
+    background-color: #1d2024;
+}
+
+.login-top {
+    width: 375px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.containerWrap {
+    text-align: center;
+}
+
+.space-6 {
+    max-height: 1px;
+    min-height: 1px;
+    overflow: hidden;
+    margin: 6px 0 5px;
+}
+.window-widget{
+    margin: 0 auto;
+    width: 375px;
+    position: relative;
+    padding: 6px;
+    background: #394557;
+}
+.green {
+    color: #69aa46 !important
+}
+
+.red {
+    color: #dd5a43 !important;
+}
+
+.login-win {
+    width: 100%;
+    background-color: #f7f7f7;
+    overflow: hidden;
+}
+.login-win-content{
+    padding: 16px 36px;
+}
+.border-down{
+    border-bottom: solid 1px #CCC;
+}
+.visible {
+    visibility: visible;
+!important;
+}
+
+.blue {
+    color: #478fca !important;
+}
+
+.login-form-title {
+    margin: 18px 0 16px 0;
+    line-height: 28px;
+
+    padding-bottom: 4px;
+}
+
+.login-layout label {
+    padding-bottom: 14px;
+}
+
+.block {
+    width: 100%;
+    display: block;
+!important;
+}
+
+.input-icon {
+    position: relative;
+}
+
+.input-icon > [class*="icon-"] {
+    padding: 0 3px;
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    line-height: 28px;
+    display: inline-block;
+    color: #909090;
+    font-size: 16px;
+}
+.input-icon.input-icon-right>[class*="icon-"]{
+    left: auto;
+    right: 3px;
+}
+.space {
+    max-height: 1px;
+    min-height: 1px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+.inline{
+    display: inline-block;!important;
+    width: 100%;
+    position: relative;
+}
+.form-input {
+    width: 100%;
+    padding-left: 10px!important;
+    padding-right: 24px!important;
+}
+
+input[type=checkbox].ace, input[type=radio].ace {
+    /*opacity: 0;*/
+    position: absolute;
+    z-index: 12;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    left: 0px;
+
+}
+
+.rem {
+    position: absolute;
+    display: inline-block;
+    left: 30px;
+    text-align: left;
+}
+
+.loginBtn {
+    position: absolute;
+    right: 0;
+    background: #5090c1;
+    display: inline-block;
+    width: 75px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    color: #fff;
+    top: -10px;
+}
+
+.toolbar {
+    background: #5090c1;
+!important;
+    border-top: solid 2px #597597;
+}
+
+.forget-psw-link {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+}
+
+.user-reg-link {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+}
+.white{
+    color: #fff;!important;
+    display: inline-block;
+}
+.login-button-left, .login-button-right{
+    width: 50%;
+    display: inline-block;
+    float: left;
+}
+.resetPsw-win{
+    position: relative;
+    overflow: hidden;
+    background-color: #f7f7f7;
+}
+.resetPsw-win-content{
+    padding: 16px 36px;
+}
+.resetPsw-form-title{
+    text-indent: 10px;
+    display: inline-block;
+    text-align: left;!important;
+    padding-bottom: 10px;
+}
+.reset-psw-info{
+    padding: 20px 0 10px 0;
+}
+.rst-span{
+    width: 100%;
+    position: relative;
+    display: block;!important;
+    padding-bottom: 14px;
+}
+.rst-span .icon-msg{
+    padding: 0 3px;
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    line-height: 28px;
+    display: inline-block;
+    color: #909090;
+    font-size: 16px;
+    left: auto;!important;
+    right: 3px;!important;
+}
+.rst-span input{
+    width: 100%;
+    padding-left: 10px!important;
+    padding-right: 24px!important;
+}
+.resetBtn{
+    position: relative;
+    right: 0;
+    background: #dd5a43;
+    display: inline-block;
+    width: 75px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    color: #fff;
+    top: -10px;
+    /*padding-left: 100px;*/
+    padding-bottom: 14px;
+}
+.reset-button{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    color: #FE9;
+    text-align: center;
+    background-color: #dd5a43;
+}
+.yellow{
+    color: #FE9;
+}
+.jump-login-link{
+    display: inline-block;
+    color: #FE9;
+}
+.register-win{
+    position: relative;
+    overflow: hidden;
+    background-color: #f7f7f7;
+}
+.register-win-content{
+    padding: 16px 36px;
+}
+.register-form-title{
+    text-indent: 10px;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+.register-button{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    color: #FE9;
+    text-align: center;
+    background-color: #69aa46;
+}
+@media only screen and (max-width: 480px) {
+    .login-top, .login-win {
+        width: 98%;
+    }
+}
+
+
+/*------------------------------------------------------------CSS For table.HTML------------------------------------------------------*/
+
+.table thead tr th{
+    color: #707070;
+    background: #f2f2f2!important;
+  //  border-color: #f2f2f2!important;
+    border: solid 1px #ddd!important;
+}
+.click-active>td{
+	border: solid 1px #438eb9!important;
+}
+.mgr-space{
+    margin-right: 20px;
+}
+.click-active{
+	background-color: #428bca!important;
+	opacity: 0.8;
+}
+.table-search-area , .table-bottom-btns{
+	padding: 15px 10px;
+	background: #EFF3F8;
+
+}
+.table-search-area input{
+	margin-right: 10px;
+}
+.table-top-content{
+	position: relative;
+	margin-bottom: 10px;
+	margin-left: 0px!important;
+	
+}
+
+.table-top-content li{
+	display: inline-block;
+}
+.modal-body{
+	background: #F5F5F5!important;
+}
+.datepicker{
+	z-index: 1200!important;
+}
+.mark-pos{
+	position: absolute;
+    right: 150px;
+    top: 7px;
+    color: red;
+    font-size: 16px;
+    font-weight: 700;
+}
+.pos-rel{
+	position: relative;
+}
+.selsize{
+	border-radius: 0!important;
+	height: 32px!important;
+	line-height: 32px!important;
+}
+.table-row{
+	line-height: 37px;
+	text-align: center;
+}
+#reg_tyj_win,#reg_cou_win{
+	height: 220px;
+	overflow: auto;
+	background: #fff;
+	display: block;
+}
+#regCheckModal .modal-dialog,#awardCheckModal .modal-dialog{
+	width: 700px;
+}

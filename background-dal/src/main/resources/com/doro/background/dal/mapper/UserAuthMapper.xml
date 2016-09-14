@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.UserAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.UserAuth" >
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="cert_id" property="certId" jdbcType="VARCHAR" />
+    <result column="real_name_checked" property="realNameChecked" jdbcType="BIT" />
+    <result column="user_mobile" property="userMobile" jdbcType="VARCHAR" />
+    <result column="user_mobile_checked" property="userMobileChecked" jdbcType="BIT" />
+    <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_email_checked" property="userEmailChecked" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ModelResultMap" type="java.util.HashMap" >
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="cert_id" property="certId" jdbcType="VARCHAR" />
+    <result column="real_name_checked" property="realNameChecked" jdbcType="BIT" />
+    <result column="user_mobile" property="userMobile" jdbcType="VARCHAR" />
+    <result column="user_mobile_checked" property="userMobileChecked" jdbcType="BIT" />
+    <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_email_checked" property="userEmailChecked" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, real_name, cert_id, real_name_checked, user_mobile, user_mobile_checked, 
+    user_email, user_email_checked
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_auth
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据条件筛选 -->
+  <select id="selectByCondition" resultMap="ModelResultMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_auth
+    where 1=1
+     <if test="userId != null" >
+        and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="realName != null" >
+        and real_name = #{realName,jdbcType=VARCHAR}
+      </if>
+      <if test="certId != null" >
+        and cert_id = #{certId,jdbcType=VARCHAR}
+      </if>
+      <if test="realNameChecked != null" >
+        and real_name_checked = #{realNameChecked,jdbcType=BIT}
+      </if>
+      <if test="userMobile != null" >
+        and user_mobile = #{userMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="userMobileChecked != null" >
+        and user_mobile_checked = #{userMobileChecked,jdbcType=BIT}
+      </if>
+      <if test="userEmail != null" >
+        and user_email = #{userEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="userEmailChecked != null" >
+        and user_email_checked = #{userEmailChecked,jdbcType=BIT}
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_auth
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.UserAuth" >
+    insert into user_auth (user_id, real_name, cert_id, 
+      real_name_checked, user_mobile, user_mobile_checked, 
+      user_email, user_email_checked)
+    values (#{userId,jdbcType=BIGINT}, #{realName,jdbcType=VARCHAR}, #{certId,jdbcType=VARCHAR}, 
+      #{realNameChecked,jdbcType=BIT}, #{userMobile,jdbcType=VARCHAR}, #{userMobileChecked,jdbcType=BIT}, 
+      #{userEmail,jdbcType=VARCHAR}, #{userEmailChecked,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.UserAuth" >
+    insert into user_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="certId != null" >
+        cert_id,
+      </if>
+      <if test="realNameChecked != null" >
+        real_name_checked,
+      </if>
+      <if test="userMobile != null" >
+        user_mobile,
+      </if>
+      <if test="userMobileChecked != null" >
+        user_mobile_checked,
+      </if>
+      <if test="userEmail != null" >
+        user_email,
+      </if>
+      <if test="userEmailChecked != null" >
+        user_email_checked,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="certId != null" >
+        #{certId,jdbcType=VARCHAR},
+      </if>
+      <if test="realNameChecked != null" >
+        #{realNameChecked,jdbcType=BIT},
+      </if>
+      <if test="userMobile != null" >
+        #{userMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userMobileChecked != null" >
+        #{userMobileChecked,jdbcType=BIT},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmailChecked != null" >
+        #{userEmailChecked,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.UserAuth" >
+    update user_auth
+    <set >
+      <if test="realName != null" >
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="certId != null" >
+        cert_id = #{certId,jdbcType=VARCHAR},
+      </if>
+      <if test="realNameChecked != null" >
+        real_name_checked = #{realNameChecked,jdbcType=BIT},
+      </if>
+      <if test="userMobile != null" >
+        user_mobile = #{userMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userMobileChecked != null" >
+        user_mobile_checked = #{userMobileChecked,jdbcType=BIT},
+      </if>
+      <if test="userEmail != null" >
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmailChecked != null" >
+        user_email_checked = #{userEmailChecked,jdbcType=BIT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.UserAuth" >
+    update user_auth
+    set real_name = #{realName,jdbcType=VARCHAR},
+      cert_id = #{certId,jdbcType=VARCHAR},
+      real_name_checked = #{realNameChecked,jdbcType=BIT},
+      user_mobile = #{userMobile,jdbcType=VARCHAR},
+      user_mobile_checked = #{userMobileChecked,jdbcType=BIT},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_email_checked = #{userEmailChecked,jdbcType=BIT}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

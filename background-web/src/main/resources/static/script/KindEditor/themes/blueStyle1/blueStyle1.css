@@ -1,0 +1,16 @@
+.ke-container-blueStyle1 {
+    display: block;
+    border: 1px solid #307ecc!important;
+    background-color: #FFF;
+    overflow: hidden;
+}
+.ke-container-blueStyle1 .ke-toolbar {
+    border-bottom: 1px solid #CCC;
+    background-color: #307ecc;
+    padding: 2px 5px;
+    overflow: hidden;
+}
+.ke-container-blueStyle1 .ke-toolbar .ke-outline{
+    border-color: transparent;
+    background: rgba(255,255,255,.25)!important;
+}

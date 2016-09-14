@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.BaofooBindMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.BaofooBind" >
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="is_bind" property="isBind" jdbcType="BIT" />
+    <result column="acc_no" property="accNo" jdbcType="VARCHAR" />
+    <result column="pay_code" property="payCode" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="id_holder" property="idHolder" jdbcType="VARCHAR" />
+    <result column="bind_id" property="bindId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, is_bind, acc_no, pay_code, mobile, id_card, id_holder, bind_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from baofoo_bind
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from baofoo_bind
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.BaofooBind" >
+    insert into baofoo_bind (user_id, is_bind, acc_no, 
+      pay_code, mobile, id_card, 
+      id_holder, bind_id, create_time
+      )
+    values (#{userId,jdbcType=BIGINT}, #{isBind,jdbcType=BIT}, #{accNo,jdbcType=VARCHAR}, 
+      #{payCode,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{idHolder,jdbcType=VARCHAR}, #{bindId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.BaofooBind" >
+    insert into baofoo_bind
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="isBind != null" >
+        is_bind,
+      </if>
+      <if test="accNo != null" >
+        acc_no,
+      </if>
+      <if test="payCode != null" >
+        pay_code,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="idCard != null" >
+        id_card,
+      </if>
+      <if test="idHolder != null" >
+        id_holder,
+      </if>
+      <if test="bindId != null" >
+        bind_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="isBind != null" >
+        #{isBind,jdbcType=BIT},
+      </if>
+      <if test="accNo != null" >
+        #{accNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payCode != null" >
+        #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="idHolder != null" >
+        #{idHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="bindId != null" >
+        #{bindId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.BaofooBind" >
+    update baofoo_bind
+    <set >
+      <if test="isBind != null" >
+        is_bind = #{isBind,jdbcType=BIT},
+      </if>
+      <if test="accNo != null" >
+        acc_no = #{accNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payCode != null" >
+        pay_code = #{payCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="idHolder != null" >
+        id_holder = #{idHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="bindId != null" >
+        bind_id = #{bindId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.BaofooBind" >
+    update baofoo_bind
+    set is_bind = #{isBind,jdbcType=BIT},
+      acc_no = #{accNo,jdbcType=VARCHAR},
+      pay_code = #{payCode,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      id_holder = #{idHolder,jdbcType=VARCHAR},
+      bind_id = #{bindId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

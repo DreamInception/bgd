@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.PayExpenseIncomeMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.PayExpenseIncome" >
+    <id column="expense_income_id" property="expenseIncomeId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="enum_expense_income_type" property="enumExpenseIncomeType" jdbcType="INTEGER" />
+    <result column="enum_expense_income_channel" property="enumExpenseIncomeChannel" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    expense_income_id, user_id, amount, fee, enum_expense_income_type, enum_expense_income_channel, 
+    remark, create_time
+  </sql>
+   <select id="selectListByUserIdInvest" resultType="java.math.BigDecimal" parameterType="java.lang.Long">
+  select IFNULL(sum(amount),0) from pay_expense_income where user_id = #{userId} and enum_expense_income_type = 200 and  enum_expense_income_channel = 100 
+  </select>
+  <select id="selectListByUserIdRedeem" resultType="java.math.BigDecimal" parameterType="java.lang.Long">
+  select IFNULL(sum(amount),0) from pay_expense_income where user_id = #{userId} and enum_expense_income_type = 300 and  enum_expense_income_channel = 100
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_expense_income
+    where expense_income_id = #{expenseIncomeId,jdbcType=BIGINT}
+  </select>
+  <!-- 根据条件查询pagelist -->
+  <select id="selectByConditionPage" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_expense_income
+    where 1=1
+      <if test="expenseIncomeId != null" >
+       and expense_income_id = #{expenseIncomeId,jdbcType=BIGINT}
+      </if>
+      <if test="userId != null" >
+       and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="enumExpenseIncomeChannel != null" >
+        and enum_expense_income_channel = #{enumExpenseIncomeChannel,jdbcType=INTEGER}
+      </if>
+      order by create_time DESC 
+      limit #{start},#{end}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from pay_expense_income
+    where expense_income_id = #{expenseIncomeId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.PayExpenseIncome" >
+    insert into pay_expense_income (expense_income_id, user_id, amount, 
+      fee, enum_expense_income_type, enum_expense_income_channel, 
+      enum_expense_income_state, remark, create_time
+      )
+    values (#{expenseIncomeId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, 
+      #{fee,jdbcType=DECIMAL}, #{enumExpenseIncomeType,jdbcType=INTEGER}, #{enumExpenseIncomeChannel,jdbcType=INTEGER}, 
+       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.PayExpenseIncome" >
+    insert into pay_expense_income
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="expenseIncomeId != null" >
+        expense_income_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="enumExpenseIncomeType != null" >
+        enum_expense_income_type,
+      </if>
+      <if test="enumExpenseIncomeChannel != null" >
+        enum_expense_income_channel,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="expenseIncomeId != null" >
+        #{expenseIncomeId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="enumExpenseIncomeType != null" >
+        #{enumExpenseIncomeType,jdbcType=INTEGER},
+      </if>
+      <if test="enumExpenseIncomeChannel != null" >
+        #{enumExpenseIncomeChannel,jdbcType=INTEGER},
+      </if>
+     
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.PayExpenseIncome" >
+    update pay_expense_income
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="enumExpenseIncomeType != null" >
+        enum_expense_income_type = #{enumExpenseIncomeType,jdbcType=INTEGER},
+      </if>
+      <if test="enumExpenseIncomeChannel != null" >
+        enum_expense_income_channel = #{enumExpenseIncomeChannel,jdbcType=INTEGER},
+      </if>
+     
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where expense_income_id = #{expenseIncomeId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.PayExpenseIncome" >
+    update pay_expense_income
+    set user_id = #{userId,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=DECIMAL},
+      fee = #{fee,jdbcType=DECIMAL},
+      enum_expense_income_type = #{enumExpenseIncomeType,jdbcType=INTEGER},
+      enum_expense_income_channel = #{enumExpenseIncomeChannel,jdbcType=INTEGER},
+      
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where expense_income_id = #{expenseIncomeId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.BaofooOutgoMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.BaofooOutgo" >
+    <id column="auto_id" property="autoId" jdbcType="BIGINT" />
+    <result column="application_id" property="applicationId" jdbcType="BIGINT" />
+    <result column="trans_no" property="transNo" jdbcType="VARCHAR" />
+    <result column="trans_money" property="transMoney" jdbcType="DECIMAL" />
+    <result column="to_acc_name" property="toAccName" jdbcType="VARCHAR" />
+    <result column="to_acc_no" property="toAccNo" jdbcType="VARCHAR" />
+    <result column="to_bank_name" property="toBankName" jdbcType="VARCHAR" />
+    <result column="to_pro_name" property="toProName" jdbcType="VARCHAR" />
+    <result column="to_city_name" property="toCityName" jdbcType="VARCHAR" />
+    <result column="to_acc_dept" property="toAccDept" jdbcType="VARCHAR" />
+    <result column="trans_summary" property="transSummary" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enum_trade_state" property="enumTradeState" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    auto_id, application_id, trans_no, trans_money, to_acc_name, to_acc_no, to_bank_name, 
+    to_pro_name, to_city_name, to_acc_dept, trans_summary, remark, enum_trade_state, 
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from baofoo_outgo
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from baofoo_outgo
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.BaofooOutgo" >
+    insert into baofoo_outgo (auto_id, application_id, trans_no, 
+      trans_money, to_acc_name, to_acc_no, 
+      to_bank_name, to_pro_name, to_city_name, 
+      to_acc_dept, trans_summary, remark, 
+      enum_trade_state, create_time)
+    values (#{autoId,jdbcType=BIGINT}, #{applicationId,jdbcType=BIGINT}, #{transNo,jdbcType=VARCHAR}, 
+      #{transMoney,jdbcType=DECIMAL}, #{toAccName,jdbcType=VARCHAR}, #{toAccNo,jdbcType=VARCHAR}, 
+      #{toBankName,jdbcType=VARCHAR}, #{toProName,jdbcType=VARCHAR}, #{toCityName,jdbcType=VARCHAR}, 
+      #{toAccDept,jdbcType=VARCHAR}, #{transSummary,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{enumTradeState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="autoId" parameterType="com.doro.background.dal.entity.BaofooOutgo" >
+    insert into baofoo_outgo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="autoId != null" >
+        auto_id,
+      </if>
+      <if test="applicationId != null" >
+        application_id,
+      </if>
+      <if test="transNo != null" >
+        trans_no,
+      </if>
+      <if test="transMoney != null" >
+        trans_money,
+      </if>
+      <if test="toAccName != null" >
+        to_acc_name,
+      </if>
+      <if test="toAccNo != null" >
+        to_acc_no,
+      </if>
+      <if test="toBankName != null" >
+        to_bank_name,
+      </if>
+      <if test="toProName != null" >
+        to_pro_name,
+      </if>
+      <if test="toCityName != null" >
+        to_city_name,
+      </if>
+      <if test="toAccDept != null" >
+        to_acc_dept,
+      </if>
+      <if test="transSummary != null" >
+        trans_summary,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="enumTradeState != null" >
+        enum_trade_state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="autoId != null" >
+        #{autoId,jdbcType=BIGINT},
+      </if>
+      <if test="applicationId != null" >
+        #{applicationId,jdbcType=BIGINT},
+      </if>
+      <if test="transNo != null" >
+        #{transNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transMoney != null" >
+        #{transMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="toAccName != null" >
+        #{toAccName,jdbcType=VARCHAR},
+      </if>
+      <if test="toAccNo != null" >
+        #{toAccNo,jdbcType=VARCHAR},
+      </if>
+      <if test="toBankName != null" >
+        #{toBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="toProName != null" >
+        #{toProName,jdbcType=VARCHAR},
+      </if>
+      <if test="toCityName != null" >
+        #{toCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="toAccDept != null" >
+        #{toAccDept,jdbcType=VARCHAR},
+      </if>
+      <if test="transSummary != null" >
+        #{transSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enumTradeState != null" >
+        #{enumTradeState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.BaofooOutgo" >
+    update baofoo_outgo
+    <set >
+      <if test="applicationId != null" >
+        application_id = #{applicationId,jdbcType=BIGINT},
+      </if>
+      <if test="transNo != null" >
+        trans_no = #{transNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transMoney != null" >
+        trans_money = #{transMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="toAccName != null" >
+        to_acc_name = #{toAccName,jdbcType=VARCHAR},
+      </if>
+      <if test="toAccNo != null" >
+        to_acc_no = #{toAccNo,jdbcType=VARCHAR},
+      </if>
+      <if test="toBankName != null" >
+        to_bank_name = #{toBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="toProName != null" >
+        to_pro_name = #{toProName,jdbcType=VARCHAR},
+      </if>
+      <if test="toCityName != null" >
+        to_city_name = #{toCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="toAccDept != null" >
+        to_acc_dept = #{toAccDept,jdbcType=VARCHAR},
+      </if>
+      <if test="transSummary != null" >
+        trans_summary = #{transSummary,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enumTradeState != null" >
+        enum_trade_state = #{enumTradeState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.BaofooOutgo" >
+    update baofoo_outgo
+    set application_id = #{applicationId,jdbcType=BIGINT},
+      trans_no = #{transNo,jdbcType=VARCHAR},
+      trans_money = #{transMoney,jdbcType=DECIMAL},
+      to_acc_name = #{toAccName,jdbcType=VARCHAR},
+      to_acc_no = #{toAccNo,jdbcType=VARCHAR},
+      to_bank_name = #{toBankName,jdbcType=VARCHAR},
+      to_pro_name = #{toProName,jdbcType=VARCHAR},
+      to_city_name = #{toCityName,jdbcType=VARCHAR},
+      to_acc_dept = #{toAccDept,jdbcType=VARCHAR},
+      trans_summary = #{transSummary,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      enum_trade_state = #{enumTradeState,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where auto_id = #{autoId,jdbcType=BIGINT}
+  </update>
+</mapper>

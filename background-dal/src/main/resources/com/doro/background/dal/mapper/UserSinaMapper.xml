@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.UserSinaMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.UserSina" >
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="user_sina_id" property="userSinaId" jdbcType="VARCHAR" />
+    <result column="is_real_name" property="isRealName" jdbcType="BIT" />
+    <result column="is_binding_verify" property="isBindingVerify" jdbcType="BIT" />
+    <result column="is_binding_bank_card" property="isBindingBankCard" jdbcType="BIT" />
+    <result column="is_pay_password" property="isPayPassword" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, user_sina_id, is_real_name, is_binding_verify, is_binding_bank_card, is_pay_password
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_sina
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_sina
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.UserSina" >
+    insert into user_sina (user_id, user_sina_id, is_real_name, 
+      is_binding_verify, is_binding_bank_card, is_pay_password
+      )
+    values (#{userId,jdbcType=BIGINT}, #{userSinaId,jdbcType=VARCHAR}, #{isRealName,jdbcType=BIT}, 
+      #{isBindingVerify,jdbcType=BIT}, #{isBindingBankCard,jdbcType=BIT}, #{isPayPassword,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.UserSina" >
+    insert into user_sina
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userSinaId != null" >
+        user_sina_id,
+      </if>
+      <if test="isRealName != null" >
+        is_real_name,
+      </if>
+      <if test="isBindingVerify != null" >
+        is_binding_verify,
+      </if>
+      <if test="isBindingBankCard != null" >
+        is_binding_bank_card,
+      </if>
+      <if test="isPayPassword != null" >
+        is_pay_password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userSinaId != null" >
+        #{userSinaId,jdbcType=VARCHAR},
+      </if>
+      <if test="isRealName != null" >
+        #{isRealName,jdbcType=BIT},
+      </if>
+      <if test="isBindingVerify != null" >
+        #{isBindingVerify,jdbcType=BIT},
+      </if>
+      <if test="isBindingBankCard != null" >
+        #{isBindingBankCard,jdbcType=BIT},
+      </if>
+      <if test="isPayPassword != null" >
+        #{isPayPassword,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.UserSina" >
+    update user_sina
+    <set >
+      <if test="userSinaId != null" >
+        user_sina_id = #{userSinaId,jdbcType=VARCHAR},
+      </if>
+      <if test="isRealName != null" >
+        is_real_name = #{isRealName,jdbcType=BIT},
+      </if>
+      <if test="isBindingVerify != null" >
+        is_binding_verify = #{isBindingVerify,jdbcType=BIT},
+      </if>
+      <if test="isBindingBankCard != null" >
+        is_binding_bank_card = #{isBindingBankCard,jdbcType=BIT},
+      </if>
+      <if test="isPayPassword != null" >
+        is_pay_password = #{isPayPassword,jdbcType=BIT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.UserSina" >
+    update user_sina
+    set user_sina_id = #{userSinaId,jdbcType=VARCHAR},
+      is_real_name = #{isRealName,jdbcType=BIT},
+      is_binding_verify = #{isBindingVerify,jdbcType=BIT},
+      is_binding_bank_card = #{isBindingBankCard,jdbcType=BIT},
+      is_pay_password = #{isPayPassword,jdbcType=BIT}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

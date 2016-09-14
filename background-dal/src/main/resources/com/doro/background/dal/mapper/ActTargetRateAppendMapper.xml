@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.ActTargetRateAppendMapper">
+	<resultMap id="BaseResultMap"
+		type="com.doro.background.dal.entity.ActTargetRateAppend">
+		<id column="act_auto_id" property="actAutoId" jdbcType="BIGINT" />
+		<result column="act_name" property="actName" jdbcType="VARCHAR" />
+		<result column="append_lable" property="appendLable" jdbcType="VARCHAR" />
+		<result column="append_year_rate" property="appendYearRate" jdbcType="DECIMAL" />
+		<result column="append_day_rate" property="appendDayRate" jdbcType="DECIMAL" />
+		<result column="append_day_count" property="appendDayCount" jdbcType="INTEGER" />
+		<result column="begin_date" property="beginDate" jdbcType="DATE" />
+		<result column="end_date" property="endDate" jdbcType="DATE" />
+		<result column="is_onsale" property="isOnsale" jdbcType="BIT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		act_auto_id, act_name, append_lable, append_year_rate,
+		append_day_rate,
+		append_day_count,
+		begin_date, end_date, is_onsale
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from act_target_rate_append
+    where act_auto_id = #{actAutoId,jdbcType=BIGINT}
+  </select>
+	<select id="selectByValid" resultType="java.util.HashMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from act_target_rate_append
+    where begin_date <![CDATA[<= ]]> now() and end_date <![CDATA[>= ]]> now() and is_onsale = 1
+  </select>
+	<!-- 查询总页数 -->
+	<select id="selectPageListCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		select
+		count(1) selectPageListCount
+		from act_target_rate_append
+		<where>
+			<if test="actAutoId!=null and actAutoId!=''">
+				act_auto_id = #{actAutoId,jdbcType=BIGINT}
+			</if>
+			<if test="actName!=null and actName!=''">
+				and act_name like CONCAT('%',#{actName},'%')
+			</if>
+			<if test="isOnsale!=null">
+				and is_onsale = #{isOnsale,jdbcType=BIT}
+			</if>
+		</where>
+	</select>
+	<!-- 查询分页列表 -->
+	<select id="selectPageList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select
+		<include refid="Base_Column_List" />
+		from act_target_rate_append
+		<where>
+			<if test="actAutoId!=null and actAutoId!=''">
+				act_auto_id = #{actAutoId,jdbcType=BIGINT}
+			</if>
+			<if test="actName!=null and actName!=''">
+				and act_name like CONCAT('%',#{actName},'%')
+			</if>
+			<if test="isOnsale!=null">
+				and is_onsale = #{isOnsale,jdbcType=BIT}
+			</if>
+		</where>
+		order by begin_date DESC limit #{start},#{end}
+	</select>
+
+	<!-- 添加数据 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="actAutoId" parameterType="com.doro.background.dal.entity.ActTargetRateAppend">
+		insert into act_target_rate_append (act_auto_id,
+		act_name,
+		append_lable,
+		append_year_rate, append_day_rate,
+		append_day_count,
+		begin_date, end_date, is_onsale)
+		values
+		(#{actAutoId,jdbcType=BIGINT}, #{actName,jdbcType=VARCHAR},
+		#{appendLable,jdbcType=VARCHAR},
+		#{appendYearRate,jdbcType=DECIMAL},
+		#{appendDayRate,jdbcType=DECIMAL},
+		#{appendDayCount,jdbcType=INTEGER},
+		#{beginDate,jdbcType=DATE}, #{endDate,jdbcType=DATE},
+		#{isOnsale,jdbcType=BIT})
+	</insert>
+
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.doro.background.dal.entity.ActTargetRateAppend">
+		update act_target_rate_append
+		<set>
+			<if test="actName != null">
+				act_name = #{actName,jdbcType=VARCHAR},
+			</if>
+			<if test="appendLable != null">
+				append_lable = #{appendLable,jdbcType=VARCHAR},
+			</if>
+			<if test="appendYearRate != null">
+				append_year_rate = #{appendYearRate,jdbcType=DECIMAL},
+			</if>
+			<if test="appendDayRate != null">
+				append_day_rate = #{appendDayRate,jdbcType=DECIMAL},
+			</if>
+			<if test="appendDayCount != null">
+				append_day_count = #{appendDayCount,jdbcType=INTEGER},
+			</if>
+			<if test="beginDate != null">
+				begin_date = #{beginDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate,jdbcType=DATE},
+			</if>
+			<if test="isOnsale != null">
+				is_onsale = #{isOnsale,jdbcType=BIT},
+			</if>
+		</set>
+		where act_auto_id = #{actAutoId,jdbcType=BIGINT} limit 1
+	</update>
+
+    <!-- 上架下架 -->
+	<update id="updateOnsale" parameterType="java.util.HashMap">
+	    update act_target_rate_append
+		<set>
+			is_onsale = #{isOnsale,jdbcType=BIT}
+		</set>
+		where act_auto_id = #{actAutoId,jdbcType=BIGINT} limit 1
+	</update>
+
+</mapper>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.UserHqRedeemApplicationMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.UserHqRedeemApplication" >
+    <id column="application_id" property="applicationId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="enum_redeem_state" property="enumRedeemState" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    application_id, user_id, amount, enum_redeem_state, remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_hq_redeem_application
+    where application_id = #{applicationId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKeyForUpdate" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_hq_redeem_application
+    where application_id = #{applicationId,jdbcType=BIGINT}
+    for update
+  </select>
+  <!-- 统计赎回列表条数 -->
+  <select id="count" resultType="java.lang.Integer" parameterType="java.util.HashMap" >
+    select 
+    	count(0)
+    from user_hq_redeem_application
+    where 1=1
+    <if test="userId != null" >
+        and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="amount != null" >
+        and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="enumRedeemState != null" >
+        and enum_redeem_state = #{enumRedeemState,jdbcType=INTEGER}
+      </if>
+      <if test="remark != null" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+  </select>
+  <!-- 查询赎回列表 -->
+  <select id="selectPageList" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+    select 
+     application_id as applicationId,
+     (select real_name from user_auth where user_auth.user_id = user_hq_redeem_application.user_id) as realName,
+     (select user_mobile from user_auth where user_auth.user_id = user_hq_redeem_application.user_id) as userMobile,
+     amount,
+     enum_redeem_state as enumRedeemState,
+     remark,
+     create_time as createTime
+    from user_hq_redeem_application
+    where 1=1
+    <if test="userId != null" >
+        and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="amount != null" >
+        and amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="enumRedeemState != null" >
+        and enum_redeem_state = #{enumRedeemState,jdbcType=INTEGER}
+      </if>
+      <if test="remark != null" >
+        and remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      Order By create_time DESC
+      limit #{start},#{end}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_hq_redeem_application
+    where application_id = #{applicationId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.UserHqRedeemApplication" >
+    insert into user_hq_redeem_application (application_id, user_id, amount, 
+      enum_redeem_state, remark, create_time
+      )
+    values (#{applicationId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, 
+      #{enumRedeemState,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.UserHqRedeemApplication" >
+    insert into user_hq_redeem_application
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="applicationId != null" >
+        application_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="enumRedeemState != null" >
+        enum_redeem_state,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="applicationId != null" >
+        #{applicationId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="enumRedeemState != null" >
+        #{enumRedeemState,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.UserHqRedeemApplication" >
+    update user_hq_redeem_application
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="enumRedeemState != null" >
+        enum_redeem_state = #{enumRedeemState,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = CONCAT(remark,#{remark,jdbcType=VARCHAR}),
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where application_id = #{applicationId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.UserHqRedeemApplication" >
+    update user_hq_redeem_application
+    set user_id = #{userId,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=DECIMAL},
+      enum_redeem_state = #{enumRedeemState,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where application_id = #{applicationId,jdbcType=BIGINT}
+  </update>
+</mapper>

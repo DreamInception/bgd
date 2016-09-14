@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.SysAdminMapper">
+	<resultMap id="BaseResultMap" type="com.doro.background.dal.entity.SysAdmin">
+		<id column="admin_id" property="adminId" jdbcType="BIGINT" />
+		<result column="admin_name" property="adminName" jdbcType="VARCHAR" />
+		<result column="admin_pwd" property="adminPwd" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		admin_id, admin_name, admin_pwd
+	</sql>
+
+	<!-- 根据用户名查询用户 -->
+	<select id="selectByAdminName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_admin
+		where admin_name = #{admin_name,jdbcType=VARCHAR}
+	</select>
+
+    <!-- 添加用户信息 -->
+	<insert id="insert" parameterType="com.doro.background.dal.entity.SysAdmin">
+		insert into sys_admin (admin_name, admin_pwd)
+		values (#{adminName,jdbcType=VARCHAR},#{adminPwd,jdbcType=VARCHAR})
+		<selectKey resultType="java.lang.Integer" keyProperty="adminId"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+</mapper>

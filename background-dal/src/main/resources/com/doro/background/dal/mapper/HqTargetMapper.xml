@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.HqTargetMapper">
+	<resultMap id="BaseResultMap" type="com.doro.background.dal.entity.HqTarget">
+		<id column="target_id" property="targetId" jdbcType="BIGINT" />
+		<result column="target_name" property="targetName" jdbcType="VARCHAR" />
+		<result column="target_amount" property="targetAmount" jdbcType="DECIMAL" />
+		<result column="target_bid_amount" property="targetBidAmount" jdbcType="DECIMAL" />
+		<result column="target_year_rate" property="targetYearRate" jdbcType="DECIMAL" />
+		<result column="target_day_rate" property="targetDayRate" jdbcType="DECIMAL" />
+		<result column="enum_target_state" property="enumTargetState" jdbcType="INTEGER" />
+		<result column="onsale_time" property="onsaleTime" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="enum_record_state" property="enumRecordState" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		target_id, target_name, target_amount, target_bid_amount, target_year_rate,
+		target_day_rate,
+		enum_target_state, onsale_time, create_time, enum_record_state
+	</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hq_target
+    where target_id = #{targetId,jdbcType=BIGINT}
+  </select>
+	<!-- 查询分页列表 -->
+	<select id="selectPageList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select
+		<include refid="Base_Column_List" />
+		from hq_target
+		<where>
+			<if test="targetId!=null and targetId!=''">
+				target_id = #{targetId,jdbcType=BIGINT}
+			</if>
+			<if test="targetName!=null and targetName!=''">
+				and target_name like CONCAT('%',#{targetName,jdbcType=VARCHAR},'%')
+			</if>
+		</where>
+		order by create_time DESC
+		limit #{start},#{end}
+	</select>
+	
+	<!-- 查询总页数 -->
+    <select id="selectPageListCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">		
+    select count(1) selectPageListCount from hq_target
+		<where>
+			<if test="targetId!=null and targetId!=''">
+				target_id = #{targetId,jdbcType=BIGINT}
+			</if>
+			<if test="targetName!=null and targetName!=''">
+				and target_name  like CONCAT('%',#{targetName,jdbcType=VARCHAR},'%')
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="com.doro.background.dal.entity.HqTarget" >
+    insert into hq_target (target_id, target_name, target_amount, 
+      target_bid_amount, target_year_rate, target_day_rate, 
+      enum_target_state, onsale_time, create_time, 
+      enum_record_state)
+    values (#{targetId,jdbcType=BIGINT}, #{targetName,jdbcType=VARCHAR}, #{targetAmount,jdbcType=DECIMAL}, 
+      #{targetBidAmount,jdbcType=DECIMAL}, #{targetYearRate,jdbcType=DECIMAL}, #{targetDayRate,jdbcType=DECIMAL}, 
+      #{enumTargetState,jdbcType=INTEGER}, #{onsaleTime,jdbcType=TIMESTAMP}, now(),100)
+  </insert>
+  
+  <!-- 上架下架 -->
+	<update id="updateEnumTargetState" parameterType="java.util.HashMap">
+	    update hq_target
+		<set>
+			enum_target_state = #{enumTargetState,jdbcType=INTEGER}
+		</set>
+		where target_id = #{targetId,jdbcType=BIGINT} limit 1
+	</update>
+</mapper>

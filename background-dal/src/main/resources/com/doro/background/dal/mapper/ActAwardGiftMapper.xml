@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.ActAwardGiftMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.ActAwardGift" >
+    <id column="act_auto_id" property="actAutoId" jdbcType="BIGINT" />
+    <result column="act_name" property="actName" jdbcType="VARCHAR" />
+    <result column="begin_date" property="beginDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="is_onsale" property="isOnsale" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    act_auto_id, act_name, begin_date, end_date, is_onsale
+  </sql>
+  <select id="selectPageList" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		select
+		a.act_auto_id actAutoId,
+		a.act_name actName,
+		a.begin_date
+		beginDate,
+		a.end_date endDate,
+		a.is_onsale isOnsale,
+		(
+		SELECT
+		COUNT(0)
+		FROM
+		act_money_coupon_item b
+		WHERE
+		a.act_auto_id = b.act_id and b.enum_act_type=100
+		) countAmci,
+		(
+		SELECT
+		COUNT(0)
+		FROM
+		act_rate_coupon_item c
+		WHERE
+		a.act_auto_id = c.act_id and c.enum_act_type=100
+		) countArci
+		from act_award_gift a
+		<where>
+			<if test="actName != null and actName!=''">
+				a.act_name like
+				CONCAT('%',#{actName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="actAutoId != null">
+				and a.act_auto_id = #{actAutoId,jdbcType=VARCHAR}
+			</if>
+		</where>
+		ORDER BY a.act_auto_id DESC
+	</select>
+
+	<select id="selectPageListCount" resultType="java.lang.Integer"
+		parameterType="java.util.HashMap">
+		select
+		count(0) selectPageListCount
+		from act_award_gift a
+		<where>
+			<if test="actName != null and actName!=''">
+				a.act_name like
+				CONCAT('%',#{actName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="actAutoId != null">
+				and a.act_auto_id = #{actAutoId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from act_award_gift
+    where act_auto_id = #{actAutoId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from act_award_gift
+    where act_auto_id = #{actAutoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.ActAwardGift" >
+    insert into act_award_gift (act_auto_id, act_name, begin_date, 
+      end_date, is_onsale)
+    values (#{actAutoId,jdbcType=BIGINT}, #{actName,jdbcType=VARCHAR}, #{beginDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{isOnsale,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.ActAwardGift" >
+    insert into act_award_gift
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="actAutoId != null" >
+        act_auto_id,
+      </if>
+      <if test="actName != null" >
+        act_name,
+      </if>
+      <if test="beginDate != null" >
+        begin_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="isOnsale != null" >
+        is_onsale,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="actAutoId != null" >
+        #{actAutoId,jdbcType=BIGINT},
+      </if>
+      <if test="actName != null" >
+        #{actName,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="isOnsale != null" >
+        #{isOnsale,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.ActAwardGift" >
+    update act_award_gift
+    <set >
+      <if test="actName != null" >
+        act_name = #{actName,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        begin_date = #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="isOnsale != null" >
+        is_onsale = #{isOnsale,jdbcType=BIT},
+      </if>
+    </set>
+    where act_auto_id = #{actAutoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.ActAwardGift" >
+    update act_award_gift
+    set act_name = #{actName,jdbcType=VARCHAR},
+      begin_date = #{beginDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      is_onsale = #{isOnsale,jdbcType=BIT}
+    where act_auto_id = #{actAutoId,jdbcType=BIGINT}
+  </update>
+</mapper>

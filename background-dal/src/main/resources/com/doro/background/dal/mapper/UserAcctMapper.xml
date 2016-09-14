@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doro.background.dal.mapper.UserAcctMapper" >
+  <resultMap id="BaseResultMap" type="com.doro.background.dal.entity.UserAcct" >
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="acct_balance" property="acctBalance" jdbcType="DECIMAL" />
+    <result column="acct_frozen" property="acctFrozen" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, acct_balance, acct_frozen
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_acct
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+   <update id="updateAcctFrozen" >
+     update user_acct set
+    
+        acct_balance = acct_balance + #{0},
+    
+        acct_frozen = acct_frozen - #{0} 
+     
+    where user_id = #{1} and acct_frozen &gt;=#{0}
+  </update>
+  
+  <!-- 根据userid查询用户零钱 -->
+  <select id="selectByUserIdForUpdate" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_acct
+    where user_id = #{userId,jdbcType=BIGINT} for update
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_acct
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.doro.background.dal.entity.UserAcct" >
+    insert into user_acct (user_id, acct_balance, acct_frozen
+      )
+    values (#{userId,jdbcType=BIGINT}, #{acctBalance,jdbcType=DECIMAL}, #{acctFrozen,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.doro.background.dal.entity.UserAcct" >
+    insert into user_acct
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="acctBalance != null" >
+        acct_balance,
+      </if>
+      <if test="acctFrozen != null" >
+        acct_frozen,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="acctBalance != null" >
+        #{acctBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="acctFrozen != null" >
+        #{acctFrozen,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.doro.background.dal.entity.UserAcct" >
+    update user_acct
+    <set >
+      <if test="acctBalance != null" >
+        acct_balance = #{acctBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="acctFrozen != null" >
+        acct_frozen = #{acctFrozen,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.doro.background.dal.entity.UserAcct" >
+    update user_acct
+    set acct_balance = #{acctBalance,jdbcType=DECIMAL},
+      acct_frozen = #{acctFrozen,jdbcType=DECIMAL}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>
